@@ -1,0 +1,9 @@
+*~
+.emacs*
+TAGS
+*.sql.gz
+libraries/
+modules/contrib/
+modules/libraries/
+themes/contrib/
+restore-private-vars.php

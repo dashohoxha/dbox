@@ -1,0 +1,65 @@
+
+* About
+
+  This is a template Drupal project that can be used to seed (create)
+  a new Drupal project quickly and easily.
+
+  The new project will contain:
+  - A Drupal profile (which can also be based on the OpenAtrium
+    profile or the Drupal Commons profile).
+  - Make files for downloading the Drupal core, all the needed
+    modules, libraries, patches, etc.
+  - Scripts for installing a minimal Ubuntu server with all the
+    packages and configurations needed for running a Drupal
+    application.
+  - Scripts, modules, tools and docs that facilitate the development,
+    including a dev-->test-->live workflow.
+
+
+* Motivation
+
+  The aim of this project is to be like a "Drupal-on-Rails" for
+  helping the new Drupal developers to get started and for simplifying
+  the life of the experienced Drupal developers.
+
+  Usually a huge number of skills is needed in order to complete
+  successfully a Drupal project, like: server management, web stack
+  management, database management, knowledge of drush, Drupal
+  profiles, frequently used modules, common Drupal development
+  patterns and paradigms, etc. A new Drupal developer cannot possibly
+  get all this skills in a short time, so he is not able to finish
+  properly a Drupal application or it will take him a very long
+  time. This project offers them a Drupal solution that works out of
+  the box, with reasonable settings and configurations, which they can
+  use as a starting point for developing their application.
+
+  This project can also simplify the life of the experienced Drupal
+  developers, by allowing them to get started quickly, and then
+  customizing the solution as they wish.
+
+
+* How it works
+
+  This script works by renaming files of the template project and
+  doing find/replace in them. There are two parameters that are used
+  to customize the template project: the project name and the project
+  prefix. In the template project they are represented by *labdoo* and
+  *lbd*, which are then replaced in the new project by the new
+  project's name and prefix.
+
+  Why these strange names? Why not use something like /example/ and
+  /xmp/, or /sample/ and /smp/, or /template/ and /tmp/ etc.
+
+  The first reason is exactly that they are strange names and so there
+  is no risk of collision with other names used in a project. For
+  example /xmp/ or /template/ or /tmp/ maybe are used on the project
+  for something else as well, and replacing them blindly with a new
+  value may break the application.
+
+  The second reason is that there is actually a [[https://github.com/Labdoo/Labdoo-2.0][real Drupal project]]
+  with this name and prefix (*labdoo* and *lbd*), and this helps to
+  maintain the template project. Any commit on the real project that
+  improves the scripts or profiles, or that fixes any bugs, can be
+  cherry picked and commited to the template project. It works the
+  other way round as well: any change on the template project can be
+  transfered to the real project in order to be tested.
