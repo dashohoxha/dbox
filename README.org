@@ -1,8 +1,8 @@
 
 * About
 
-  This is a template Drupal project that can be used to seed (create)
-  a new Drupal project quickly and easily.
+  DrupalBox is a template Drupal project that can be used to seed
+  (create) a new Drupal project quickly and easily.
 
   The new project will contain:
   - A Drupal profile (which can also be based on the OpenAtrium
@@ -14,6 +14,29 @@
     application.
   - Scripts, modules, tools and docs that facilitate the development,
     including a dev-->test-->live workflow.
+
+
+* Usage
+
+  A new Drupal project can be created by the script
+  =utils/start-new-project.sh=, like this:
+  #+BEGIN_EXAMPLE
+  wget https://raw.github.com/dashohoxha/dbox/master/utils/start-new-project.sh
+  chmod +x start-new-project.sh
+  ./start-new-project.sh --help
+  ./start-new-project.sh --project=myproject --prefix=mpr
+  #+END_EXAMPLE
+
+  Now there is a directory named ~myproject~ that contains the new
+  project. This project can be imported to GitHub like this:
+  #+BEGIN_EXAMPLE
+  myproject/utils/create-github-project.sh
+  #+END_EXAMPLE
+
+  *Note:* The script ~create-github-project.sh~ uses *hub* (from
+  http://hub.github.com/) to create a new GitHub repository, and it is
+  a /Ruby/ script. So you may be asked for the administrative password
+  in order to install the needed tools, if they are not installed.
 
 
 * Motivation
