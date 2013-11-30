@@ -49,8 +49,10 @@
 ### Output the usage of the script and stop it.
 function usage {
     echo "
-Usage: $0 [OPTIONS] <target>
-Install Labdoo inside a chroot in the target directory.
+Usage: $0 [OPTIONS]
+
+Create a new Drupal project, using the project Labdoo
+as a template project.
 
     --project=P   the name of the new project
     --prefix=P    the prefix of the new project
@@ -113,6 +115,28 @@ function get_template_project {
 }
 
 
+### remove referencies to $branch, or change them to master
+function rename_branch_to_master {
+    sed -i $project/build-labdoo.make \
+        -e "/\[branch\] = $branch/ s/^;*/;/"
+
+    files="build-labdoo.make
+           install/install-scripts/20-make-and-install-labdoo.sh"
+    for file in $files
+    do
+         sed -i $project/$file \
+             -e "s#/dashohoxha/dbox/$branch/#/dashohoxha/dbox/master/#g"
+    done
+
+    files="README.org dev/README.org
+           install/install-scripts/30-git-clone-labdoo.sh"
+    for file in $files
+    do
+         sed -i $project/$file -e "s/ --branch $branch//g"
+    done
+}
+
+
 ### rename_files $from $to
 ### The first argument is replaced with the second argument
 ### in all file and directory names.
@@ -151,6 +175,7 @@ function replace_in_all_files {
 get_options $@
 
 get_template_project
+rename_branch_to_master
 
 rename_all_files labdoo $project
 rename_all_files lbd $prefix
@@ -158,4 +183,3 @@ rename_all_files lbd $prefix
 replace_in_all_files labdoo $project
 replace_in_all_files Labdoo ${project^}
 replace_in_all_files lbd $prefix
-
