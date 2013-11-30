@@ -55,7 +55,7 @@ Install Labdoo inside a chroot in the target directory.
     --project=P   the name of the new project
     --prefix=P    the prefix of the new project
     --source=S    source of the template project
-                  (default https://github.com/Labdoo/Labdoo-2.0)
+                  (default https://github.com/dashohoxha/dbox)
     --branch=B    branch to be cloned (default oa - openatrium)
 "
     exit 0
@@ -78,7 +78,7 @@ function get_options {
     done
 
     ### set default values for the missing options
-    source=${source:-https://github.com/Labdoo/Labdoo-2.0}
+    source=${source:-https://github.com/dashohoxha/dbox}
     #source=/var/chroot/Labdoo   # for testing
     branch=${branch:-oa}
 
@@ -101,8 +101,15 @@ function get_template_project {
     rm -rf $project
     git clone --depth 1 --branch $branch $source $project
 
+    ### swap the files README.org and README1.org
+    mv $project/{README.org,README.org.bak}
+    mv $project/{README1.org,README.org}
+    mv $project/{README.org.bak,README1.org}
+
     ### clean up the template project
     rm -rf $project/.git
+    rm -rf $project/modules/features/labdoo_objects/
+    rm -rf $project/modules/custom/labdoolib/
 }
 
 
