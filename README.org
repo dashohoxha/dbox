@@ -27,6 +27,16 @@
   ./start-new-project.sh --project=myproject --prefix=mpr
   #+END_EXAMPLE
 
+  *Note:* Besides the default profile (which is on the branch
+  *master*) there is also a profile based on OpenAtrium and another
+  one based on DrupalCommons (each of them on its own branch,
+  respectively *oa* and *dc*).  To use them instead of the default
+  profile, give the option *--branch* to the script, like this:
+  #+BEGIN_EXAMPLE
+  ./start-new-project.sh --project=myproject --prefix=mpr --branch=oa
+  ./start-new-project.sh --project=myproject --prefix=mpr --branch=bc
+  #+END_EXAMPLE
+
   Now there is a directory named ~myproject~ that contains the new
   project. This project can be imported to GitHub like this:
   #+BEGIN_EXAMPLE

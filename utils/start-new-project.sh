@@ -58,7 +58,7 @@ as a template project.
     --prefix=P    the prefix of the new project
     --source=S    source of the template project
                   (default https://github.com/dashohoxha/dbox)
-    --branch=B    branch to be cloned (default oa - openatrium)
+    --branch=B    branch to be cloned (default master)
 "
     exit 0
 }
@@ -82,7 +82,7 @@ function get_options {
     ### set default values for the missing options
     source=${source:-https://github.com/dashohoxha/dbox}
     #source=/var/chroot/Labdoo   # for testing
-    branch=${branch:-oa}
+    branch=${branch:-master}
 
     ### get the values of project and prefix, if not given
     if [ "$project" = '' ]; then read -p "Project: " project; fi
