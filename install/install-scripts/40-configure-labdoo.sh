@@ -60,6 +60,9 @@ EOF
 $drush --yes pm-enable lbd_layout
 $drush --yes features-revert lbd_layout
 
+$drush --yes pm-enable lbd_hybridauth
+$drush --yes features-revert lbd_hybridauth
+
 ### update to the latest version of core and modules
 $drush --yes pm-update
 
