@@ -15,38 +15,61 @@
   - Scripts, modules, tools and docs that facilitate the development,
     including a dev-->test-->live workflow.
 
+  It creates a new project by renaming files of the template project
+  and doing find/replace in them.
 
-* Usage
 
-  A new Drupal project can be created by the script
-  =utils/start-new-project.sh=, like this:
-  #+BEGIN_EXAMPLE
-  wget https://raw.github.com/dashohoxha/dbox/master/utils/start-new-project.sh
-  chmod +x start-new-project.sh
-  ./start-new-project.sh --help
-  ./start-new-project.sh --project=myproject --prefix=mpr
-  #+END_EXAMPLE
+* Installation
 
-  *Note:* Besides the default profile (which is on the branch
-  *master*) there is also a profile based on OpenAtrium and another
-  one based on DrupalCommons (each of them on its own branch,
-  respectively *oa* and *dc*).  To use them instead of the default
-  profile, give the option *--branch* to the script, like this:
-  #+BEGIN_EXAMPLE
-  ./start-new-project.sh --project=myproject --prefix=mpr --branch=oa
-  ./start-new-project.sh --project=myproject --prefix=mpr --branch=bc
-  #+END_EXAMPLE
+  The recommended way of installation is to build a new server from
+  scratch, inside a chroot environment.
 
-  Now there is a directory named ~myproject~ that contains the new
-  project. This project can be imported to GitHub like this:
-  #+BEGIN_EXAMPLE
-  myproject/utils/create-github-project.sh
-  #+END_EXAMPLE
+  + Get a copy of the template project from GitHub:
+    #+BEGIN_EXAMPLE
+    mkdir /var/chroot
+    cd /var/chroot/
+    git clone https://github.com/dashohoxha/dbox.git labdoo
+    #+END_EXAMPLE
 
-  *Note:* The script ~create-github-project.sh~ uses *hub* (from
-  http://hub.github.com/) to create a new GitHub repository, and it is
-  a /Ruby/ script. So you may be asked for the administrative password
-  in order to install the needed tools, if they are not installed.
+  + Rename the project:
+    #+BEGIN_EXAMPLE
+    labdoo/rename-project.sh labdoo:myproject lbd:mpr
+    #+END_EXAMPLE
+
+  + Modify and customize the settings:
+    #+BEGIN_EXAMPLE
+    cp myproject/install/settings.sh myproject/cfg.sh
+    vim myproject/cfg.sh
+    #+END_EXAMPLE
+
+  + Install the project inside a chroot system:
+    #+BEGIN_EXAMPLE
+    nohup nice myproject/install/chroot.sh myproject/cfg.sh &
+    tail -f nohup.out
+    less -r nohup.out
+    #+END_EXAMPLE
+
+    This will install in /var/chroot/ a minimal ubuntu system and
+    everything that is needed for the normal work of the system. It
+    will also make the neccessary common configurations of the system.
+    After installation the system should be rebooted.
+
+  + The installation script will also create the init script
+    =/etc/init.d/chroot-mpr=, which can be used to start and stop the
+    services inside the chroot:
+    #+BEGIN_EXAMPLE
+    /etc/init.d/chroot-mpr start
+    /etc/init.d/chroot-mpr stop
+    #+END_EXAMPLE
+
+  + If this is a local copy (installed on a local machine), then add
+    the domain name =dev.myproject.org= on ~/etc/hosts~:
+    #+BEGIN_EXAMPLE
+    127.0.0.1       dev.myproject.org  localhost
+    #+END_EXAMPLE
+    This way it can be accessed by typing =https://dev.myproject.org=
+    on the browser location (not =https://127.0.0.1= or
+    =https://localhost=).
 
 
 * Motivation
@@ -71,28 +94,23 @@
   customizing the solution as they wish.
 
 
-* How it works
+* Documentation
 
-  This script works by renaming files of the template project and
-  doing find/replace in them. There are two parameters that are used
-  to customize the template project: the project name and the project
-  prefix. In the template project they are represented by *labdoo* and
-  *lbd*, which are then replaced in the new project by the new
-  project's name and prefix.
+  - Internal doc files:
+    + [[https://github.com/dashohoxha/dbox/blob/master/README.org][README.org]] (this file)
+    + [[https://github.com/dashohoxha/dbox/blob/master/dev/README.org][dev/README.org]] (tips for developers)
+    + [[https://github.com/dashohoxha/dbox/blob/master/modules/features/README.org][modules/features/README.org]]
 
-  Why these strange names? Why not use something like /example/ and
-  /xmp/, or /sample/ and /smp/, or /template/ and /tmp/ etc.
+  - External docs:
+    + http://academia.edu/3993827/Development_Setup_Of_B-Translator
+    + http://academia.edu/3992404/Using_Drupal_Features_In_B-Translator
+    + http://www.academia.edu/4054221/Cloning_a_B-Translator_Server
 
-  The first reason is exactly that they are strange names and so there
-  is no risk of collision with other names used in a project. For
-  example /xmp/ or /template/ or /tmp/ maybe are used on the project
-  for something else as well, and replacing them blindly with a new
-  value may break the application.
-
-  The second reason is that there is actually a [[https://github.com/Labdoo/Labdoo-2.0][real Drupal project]]
-  with this name and prefix (*labdoo* and *lbd*), and this helps to
-  maintain the template project. Any commit on the real project that
-  improves the scripts or profiles, or that fixes any bugs, can be
-  cherry picked and commited to the template project. It works the
-  other way round as well: any change on the template project can be
-  transfered to the real project in order to be tested.
+  - Other docs that may be useful:
+    + http://codeinthehole.com/writing/pull-requests-and-other-good-practices-for-teams-using-github/
+    + http://dashohoxha.blogspot.com/2012/08/how-to-secure-ubuntu-server.html
+    + http://dashohoxha.blogspot.com/2013/07/how-to-manage-your-own-domain-name.html
+    + http://dashohoxha.blogspot.com/2013/02/how-to-set-up-chroot-environment-for.html
+    + http://dashohoxha.blogspot.com/2012/10/using-nginx-as-web-server-for-drupal.html
+    + http://www.havetheknowhow.com/Configure-the-server/Install-ssmtp.html
+    + http://arstechnica.com/security/2009/12/how-to-get-set-with-a-secure-sertificate-for-free/

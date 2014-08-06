@@ -1,8 +1,14 @@
-; Include Drupal core and any core patches from Build Kit
-includes[] = http://drupalcode.org/project/buildkit.git/blob_plain/refs/heads/7.x-2.x:/drupal-org-core.make
+api = 2
+core = 7.x
 
+;------------------------------
+; Build Drupal core (with patches).
+;------------------------------
+includes[drupal] = drupal-org-core.make
+
+;------------------------------
+; Get profile labdoo.
+;------------------------------
 projects[labdoo][type] = profile
 projects[labdoo][download][type] = git
-projects[labdoo][download][url] = https://github.com/dashohoxha/dbox.git
-;projects[labdoo][download][url] = /var/www/Labdoo
-;projects[labdoo][download][branch] = dev
+projects[labdoo][download][url] = /var/www/code/labdoo

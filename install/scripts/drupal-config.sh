@@ -1,5 +1,14 @@
 #!/bin/bash -x
 
+### prevent robots from crawling translations
+sed -i $drupal_dir/robots.txt \
+    -e '/# Labdoo/,$ d'
+cat <<EOF >> $drupal_dir/robots.txt
+# Labdoo
+Disallow: /translations/
+Disallow: /?q=translations/
+EOF
+
 # Protect Drupal settings from prying eyes
 drupal_settings=$drupal_dir/sites/default/settings.php
 chown root:www-data $drupal_settings
@@ -57,19 +66,26 @@ comment memcache config */
 
 EOF
 
-### install features modules
+### install additional features
 ### $drush is an alias for 'drush --root=/var/www/lbd'
 $drush --yes pm-enable lbd_layout
 $drush --yes features-revert lbd_layout
 
-$drush --yes pm-enable lbd_hybridauth
-$drush --yes features-revert lbd_hybridauth
+$drush --yes pm-enable lbd_content
 
-### update to the latest version of core and modules
-$drush --yes pm-update
+$drush --yes pm-enable lbd_captcha
+$drush --yes features-revert lbd_captcha
+
+#$drush --yes pm-enable lbd_invite
+#$drush --yes pm-enable lbd_simplenews
+#$drush --yes pm-enable lbd_mass_contact
+#$drush --yes pm-enable lbd_googleanalytics
+
 
 ### install also multi-language support
-$drush --yes pm-enable l10n_client l10n_update
+$drush --yes pm-enable l10n_update
 mkdir -p $drupal_dir/sites/all/translations
 chown -R www-data: $drupal_dir/sites/all/translations
-$drush --yes l10n-update
+
+### update to the latest version of core and modules
+#$drush --yes pm-update
