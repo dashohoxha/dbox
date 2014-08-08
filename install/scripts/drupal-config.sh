@@ -68,17 +68,14 @@ EOF
 
 ### install additional features
 ### $drush is an alias for 'drush --root=/var/www/lbd'
-$drush --yes pm-enable lbd_layout
-$drush --yes features-revert lbd_layout
+# $drush --yes pm-enable lbd_layout
+# $drush --yes features-revert lbd_layout
 
-$drush --yes pm-enable lbd_content
+#$drush --yes pm-enable lbd_content
 
 $drush --yes pm-enable lbd_captcha
 $drush --yes features-revert lbd_captcha
 
-#$drush --yes pm-enable lbd_invite
-#$drush --yes pm-enable lbd_simplenews
-#$drush --yes pm-enable lbd_mass_contact
 #$drush --yes pm-enable lbd_googleanalytics
 
 ### update to the latest version of core and modules
