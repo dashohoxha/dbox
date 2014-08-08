@@ -19,5 +19,4 @@ $(dirname $0)/mysqld.sh start
 drush @lbd user-password admin --password="$lbd_admin_passwd"
 
 ### drush may create css/js files with wrong(root) permissions
-rm -rf /var/www/lbd/sites/default/files/css/
-rm -rf /var/www/lbd/sites/default/files/js/
+chown www-data: -R /var/www/lbd*/sites/default/files/{css,js}

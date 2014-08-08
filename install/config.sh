@@ -23,6 +23,6 @@ then
 fi
 
 ### drush may create some css/js files with wrong permissions
-chown wwwd-data: -R /var/www/lbd*/sites/default/files/{css,js}
+chown www-data: -R /var/www/lbd*/sites/default/files/{css,js}
 
 $lbd/config/mysqld.sh stop
