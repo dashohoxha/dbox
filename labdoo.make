@@ -59,6 +59,9 @@ projects[node_export] = 3.0
 projects[uuid] = 1.0-alpha5
 ;projects[menu_import] = 1.6
 
+projects[defaultconfig][version] = 1.x-dev
+projects[defaultconfig][patch][1900574] = https://www.drupal.org/files/issues/1900574.defaultconfig.undefinedindex_13.patch
+
 ;;; Admin Utils
 projects[module_filter] = 1.8
 projects[drush_language] = 1.2

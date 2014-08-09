@@ -1,12 +1,9 @@
 #!/bin/bash -x
 
-### set the right version to the make file
+### make sure that we have the right git branch on the make file
 makefile="$code_dir/labdoo/build-labdoo.make"
-sed -i $makefile -e '/^; version to be used/,$ d'
-cat <<EOF >> $makefile
-; version to be used
-projects[labdoo][download][branch] = '$lbd_git_branch'
-EOF
+sed -i $makefile \
+    -e "/labdoo..download..branch/ c projects[labdoo][download][branch] = $lbd_git_branch"
 
 ### retrieve all the projects/modules and build the application directory
 rm -rf $drupal_dir

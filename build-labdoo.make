@@ -12,3 +12,4 @@ includes[drupal] = drupal-org-core.make
 projects[labdoo][type] = profile
 projects[labdoo][download][type] = git
 projects[labdoo][download][url] = /var/www/code/labdoo
+projects[labdoo][download][branch] = master
