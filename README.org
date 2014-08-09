@@ -15,63 +15,7 @@
   - Scripts, modules, tools and docs that facilitate the development,
     including a dev-->test-->live workflow.
 
-  It creates a new project by renaming files of the template project
-  and doing find/replace in them.
-
-
-* Installation
-
-  The recommended way of installation is to build a new server from
-  scratch, inside a chroot environment.
-
-  + Get a copy of the template project from GitHub:
-    #+BEGIN_EXAMPLE
-    mkdir /var/chroot
-    cd /var/chroot/
-    git clone https://github.com/dashohoxha/dbox.git labdoo
-    #+END_EXAMPLE
-
-  + Rename the project:
-    #+BEGIN_EXAMPLE
-    labdoo/rename-project.sh labdoo:myproject lbd:mpr
-    #+END_EXAMPLE
-
-  + Modify and customize the settings:
-    #+BEGIN_EXAMPLE
-    cp myproject/install/settings.sh myproject/cfg.sh
-    vim myproject/cfg.sh
-    #+END_EXAMPLE
-
-  + Install the project inside a chroot system:
-    #+BEGIN_EXAMPLE
-    nohup nice myproject/install/chroot.sh myproject/cfg.sh &
-    tail -f nohup.out
-    less -r nohup.out
-    #+END_EXAMPLE
-
-    This will install in /var/chroot/ a minimal ubuntu system and
-    everything that is needed for the normal work of the system. It
-    will also make the neccessary common configurations of the system.
-    After installation the system should be rebooted.
-
-  + The installation script will also create the init script
-    =/etc/init.d/chroot-mpr=, which can be used to start and stop the
-    services inside the chroot:
-    #+BEGIN_EXAMPLE
-    /etc/init.d/chroot-mpr start
-    /etc/init.d/chroot-mpr stop
-    #+END_EXAMPLE
-
-  + If this is a local copy (installed on a local machine), then add
-    the domain name =dev.myproject.org= on ~/etc/hosts~:
-    #+BEGIN_EXAMPLE
-    127.0.0.1       dev.myproject.org  localhost
-    #+END_EXAMPLE
-    This way it can be accessed by typing =https://dev.myproject.org=
-    on the browser location (not =https://127.0.0.1= or
-    =https://localhost=).
-
-
+  
 * Motivation
 
   The aim of this project is to be like a "Drupal-on-Rails" for
@@ -92,6 +36,111 @@
   This project can also simplify the life of the experienced Drupal
   developers, by allowing them to get started quickly, and then
   customizing the solution as they wish.
+
+
+* Create a new project
+
+  A new project is created by renaming files of the template project
+  and doing find/replace in them.
+
+  + Get a copy of the template project from GitHub:
+    #+BEGIN_EXAMPLE
+    mkdir /var/chroot
+    cd /var/chroot/
+    git clone --branch master https://github.com/dashohoxha/dbox.git
+    #+END_EXAMPLE
+    The branch /openatrium/ can be used as well, instead of the
+    /master/ branch.
+
+  + Rename the project:
+    #+BEGIN_EXAMPLE
+    dbox/rename-project.sh  # see usage
+    dbox/rename-project.sh labdoo:myproject lbd:mpr
+    mv dbox myproject
+    #+END_EXAMPLE
+
+  + Initialize a git repository:
+    #+BEGIN_EXAMPLE
+    cd myproject/
+    git init .
+    git add $(git ls-files --others)
+    git commit -a -m 'My new project.'
+    #+END_EXAMPLE
+
+    Instead of initializing a new repo with =git init .= you
+    can also copy =.git= from en existing project, like this: 
+    #+BEGIN_EXAMPLE
+    cp -a ../dbox/.git .
+    git add $(git ls-files --others)
+    git rm $(git ls-files --deleted)
+    git add $(git ls-files --modified)
+    #+END_EXAMPLE
+
+
+  The script ~rename-project.sh~ works by renaming files of the
+  template project and doing find/replace in them. There are two
+  parameters that are used to customize the template project: the
+  project name and the project prefix. In the template project they
+  are represented by *labdoo* and *lbd*, which are then replaced in
+  the new project by the new project’s name and prefix.
+
+  Why these strange names? Why not use something like *example* and
+  *xmp*, or *sample* and *smp*, or *template* and *tmp* etc.
+
+  The first reason is exactly that they are strange names and so
+  there is no risk of collision with other names used in a
+  project. For example *xmp* or *template* or *tmp* maybe are used on
+  the project for something else as well, and replacing them blindly
+  with a new value may break the application.
+
+  The second reason is that there is actually a real Drupal project
+  with this name and prefix (labdoo and lbd), and this helps to
+  maintain the template project. Any commit on the real project that
+  improves the scripts or profiles, or that fixes any bugs, can be
+  cherry picked and commited to the template project. It works the
+  other way round as well: any change on the template project can be
+  transfered to the real project in order to be tested.
+
+
+* Install the new project
+
+  Installation is done by building a new server from scratch, inside a
+  chroot environment.
+
+  + Modify and customize the settings:
+    #+BEGIN_EXAMPLE
+    cp myproject/install/settings.sh myproject/cfg.sh
+    vim myproject/cfg.sh
+    #+END_EXAMPLE
+
+  + Install the project inside a chroot system:
+    #+BEGIN_EXAMPLE
+    nohup nice myproject/install/chroot.sh myproject/cfg.sh &
+    tail -f nohup.out
+    less -r nohup.out
+    #+END_EXAMPLE
+
+  This will install in ~/var/chroot/~ a minimal ubuntu system and
+  everything that is needed for the normal work of the system. It
+  will also make the neccessary common configurations of the system.
+  After installation the system should be rebooted.
+
+  The installation script will also create the init script
+  ~/etc/init.d/chroot-mpr~, which can be used to start and stop the
+  services inside the chroot:
+  #+BEGIN_EXAMPLE
+  /etc/init.d/chroot-mpr start
+  /etc/init.d/chroot-mpr stop
+  #+END_EXAMPLE
+
+  If this is a local copy (installed on a local machine), then add
+  the domain name =dev.myproject.org= on ~/etc/hosts~:
+  #+BEGIN_EXAMPLE
+  127.0.0.1       dev.myproject.org  localhost
+  #+END_EXAMPLE
+  This way it can be accessed by typing =https://dev.myproject.org=
+  on the browser location (not =https://127.0.0.1= or
+  =https://localhost=).
 
 
 * Documentation
