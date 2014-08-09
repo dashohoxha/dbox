@@ -27,8 +27,14 @@ projects[user_restrictions] = 1.0
 projects[features_extra] = 1.0
 projects[node_export] = 3.0
 
-;projects[defaultconfig][version] = 1.x-dev
-;projects[defaultconfig][patch][1900574] = https://www.drupal.org/files/issues/1900574.defaultconfig.undefinedindex_13.patch
+; Override the version of defaultconfig (to include the last patch as well)
+projects[defaultconfig][version] = 1.0-alpha9
+projects[defaultconfig][patch][2042799] = http://drupal.org/files/default_config_delete_only_if_overriden.patch
+projects[defaultconfig][patch][2043307] = http://drupal.org/files/defaultconfig_include_features_file.patch
+projects[defaultconfig][patch][2008178] = http://drupal.org/files/defaultconfig-rebuild-filters-2008178-4_0.patch
+projects[defaultconfig][patch][1861054] = http://drupal.org/files/fix-defaultconfig_rebuild_all.patch
+projects[defaultconfig][patch][1900574] = https://drupal.org/files/issues/1900574.defaultconfig.undefinedindex_13.patch
+
 
 ;;; Admin Utils
 projects[] = l10n_update
