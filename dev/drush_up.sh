@@ -10,5 +10,6 @@ do
     echo "===> $project"
     cd $project
     drush vset update_check_disabled 1 -y
+    drush pm-refresh
     drush up -y
 done
