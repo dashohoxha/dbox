@@ -105,43 +105,70 @@
 * Install the new project
 
   Installation is done by building a new server from scratch, inside a
-  chroot environment.
+  chroot environment, or inside a container (built with docker).
 
-  + Modify and customize the settings:
-    #+BEGIN_EXAMPLE
-    cp myproject/install/settings.sh myproject/cfg.sh
-    vim myproject/cfg.sh
-    #+END_EXAMPLE
+** Installation in chroot
 
-  + Install the project inside a chroot system:
-    #+BEGIN_EXAMPLE
-    nohup nice myproject/install/chroot.sh myproject/cfg.sh &
-    tail -f nohup.out
-    less -r nohup.out
-    #+END_EXAMPLE
+   + Modify and customize the settings:
+     #+BEGIN_EXAMPLE
+     cp myproject/install/settings.sh myproject/cfg.sh
+     vim myproject/cfg.sh
+     #+END_EXAMPLE
 
-  This will install in ~/var/chroot/~ a minimal ubuntu system and
-  everything that is needed for the normal work of the system. It
-  will also make the neccessary common configurations of the system.
-  After installation the system should be rebooted.
+   + Install the project inside a chroot system:
+     #+BEGIN_EXAMPLE
+     time nohup nice myproject/install/chroot.sh myproject/cfg.sh &
+     tail -f nohup.out
+     less -r nohup.out
+     #+END_EXAMPLE
 
-  The installation script will also create the init script
-  ~/etc/init.d/chroot-mpr~, which can be used to start and stop the
-  services inside the chroot:
-  #+BEGIN_EXAMPLE
-  /etc/init.d/chroot-mpr start
-  /etc/init.d/chroot-mpr stop
-  #+END_EXAMPLE
+   This will install in ~/var/chroot/~ a minimal ubuntu system and
+   everything that is needed for the normal work of the system. It
+   will also make the neccessary common configurations of the system.
+   After installation the system should be rebooted.
 
-  If this is a local copy (installed on a local machine), then add
-  the domain name =dev.myproject.org= on ~/etc/hosts~:
-  #+BEGIN_EXAMPLE
-  127.0.0.1       dev.myproject.org  localhost
-  #+END_EXAMPLE
-  This way it can be accessed by typing =https://dev.myproject.org=
-  on the browser location (not =https://127.0.0.1= or
-  =https://localhost=).
+   The installation script will also create the init script
+   ~/etc/init.d/chroot-mpr~, which can be used to start and stop the
+   services inside the chroot:
+   #+BEGIN_EXAMPLE
+   /etc/init.d/chroot-mpr start
+   /etc/init.d/chroot-mpr stop
+   #+END_EXAMPLE
 
+   If this is a local copy (installed on a local machine), then add
+   the domain name =dev.myproject.org= on ~/etc/hosts~:
+   #+BEGIN_EXAMPLE
+   127.0.0.1       dev.myproject.org  localhost
+   #+END_EXAMPLE
+   This way it can be accessed by typing =https://dev.myproject.org=
+   on the browser location (not =https://127.0.0.1= or
+   =https://localhost=).
+
+** Installation in container
+
+   + Modify and customize the settings:
+     #+BEGIN_EXAMPLE
+     cp myproject/install/settings.sh myproject/cfg.sh
+     vim myproject/cfg.sh
+     #+END_EXAMPLE
+
+   + Install the project in a container:
+     #+BEGIN_EXAMPLE
+     time nohup nice myproject/install/docker.sh myproject/cfg.sh &
+     tail -f nohup.out
+     less -r nohup.out
+     #+END_EXAMPLE
+     This will create a docker container with a minimal ubuntu system
+     and everything that is needed for the normal work of the
+     system. It will also make the neccessary common configurations of
+     the system.
+
+   + After the installation is done, you can start and stop the
+     container with:
+     #+BEGIN_EXAMPLE
+     docker start mpr
+     docker stop mpr
+     #+END_EXAMPLE
 
 * Documentation
 

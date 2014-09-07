@@ -6,7 +6,7 @@ source_dir=$(dirname $(dirname $0))
 function usage {
     echo "
 Usage: $0 <settings> [options]
-Install $source_dir inside a chroot in another directory.
+Install $source_dir inside a container.
 
     <settings>    file of installation/configuration settings
     --target=D    target dir where the system will be installed
@@ -59,56 +59,46 @@ fi
 ### make sure that we are using the right version of install scripts
 current_dir=$(pwd)
 cd $source_dir/
+source_dir=$(pwd)
 git checkout $git_branch && git pull origin $git_branch
 cd $current_dir
 
-### install debootstrap dchroot
-apt-get install -y debootstrap dchroot
+### make sure that docker is installed
+docker=docker.io
+test "$(which $docker)" || apt-get install -y $docker
 
-### install a minimal system
-export DEBIAN_FRONTEND=noninteractive
-debootstrap --variant=minbase --arch=$arch $suite $target $apt_mirror
-
-cat <<EOF > $target/etc/apt/sources.list
-deb $apt_mirror $suite main restricted universe multiverse
-deb $apt_mirror $suite-updates main restricted universe multiverse
-deb http://security.ubuntu.com/ubuntu $suite-security main restricted universe multiverse
-EOF
-
-cp /etc/resolv.conf $target/etc/resolv.conf
-mount -o bind /proc $target/proc
-chroot $target apt-get update
-chroot $target apt-get -y install ubuntu-minimal
-
-### copy the local git repository to the target dir
-export code_dir=/usr/local/src
-chroot $target mkdir -p $code_dir
-cp -a $source_dir $target/$code_dir/
-
-### run install/config scripts
+### run the install script on the image ubuntu:14.04
 source=$(basename $source_dir)
-code_dir=$code_dir/$source
-chroot $target $code_dir/install/install-and-config.sh
+export code_dir=/usr/local/src/$source
+cp $settings $source_dir/settings.sh
+container=$source
+test "$($docker ps | grep -w $target)" && $docker stop $target
+test "$($docker ps -a | grep -w $target)" && $docker rm $target
+test "$($docker ps | grep -w $container)" && $docker stop $container
+test "$($docker ps -a | grep -w $container)" && $docker rm $container
+$docker run -i -t --name=$container -v $source_dir:$code_dir ubuntu:14.04 \
+    $code_dir/install/install-and-config.sh $code_dir/settings.sh
 
-### create an init script
-template_init=$source_dir/install/init.sh
-init_script="/etc/init.d/chroot-$target"
-chroot_dir="$current_dir/$target"
-sed -e "/^CHROOT=/c CHROOT='$chroot_dir'" $template_init > $init_script
-chmod +x $init_script
+### save the new image
+image=$container
+test "$($docker images | grep -w $image)" && $docker rmi $image
+$docker commit $container $image
 
-### start the chroot system on boot
-service="chroot-$target"
-update-rc.d $service defaults
+### clean up the latest container
+$docker rm $container
+
+### run the new image and create a container
+$docker run --name=$target -d \
+    -p 80:80 -p 443:443 -p 2201:2201 \
+    $image /usr/bin/supervisord -c /etc/supervisord.conf
+    # -p $sshd_port:$sshd_port -p $httpd_port:$httpd_port \
+
+### start the container on boot
 if [ "$start_on_boot" = 'true' ]
 then
-    update-rc.d $service enable
-else
-    update-rc.d $service disable
+    sed -i /etc/rc.local -e "/$docker start $target/ d" -e "/exit/ d"
+    cat <<EOF >> /etc/rc.local
+$docker start $target
+exit 0
+EOF
 fi
-
-### stop the services inside chroot
-$init_script stop
-
-### reboot
-test "$reboot" = 'true' && reboot
