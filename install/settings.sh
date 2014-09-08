@@ -5,7 +5,7 @@ arch='i386'
 suite='trusty'
 apt_mirror='http://archive.ubuntu.com/ubuntu'
 
-### Git branche that will be used.
+### Git branch that will be used.
 lbd_git_branch='master'
 
 ### Domain of the website.
