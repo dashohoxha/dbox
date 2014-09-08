@@ -91,7 +91,7 @@ test "$($docker ps | grep -w $target)" && $docker stop $target
 test "$($docker ps -a | grep -w $target)" && $docker rm $target
 test "$($docker ps | grep -w $container)" && $docker stop $container
 test "$($docker ps -a | grep -w $container)" && $docker rm $container
-$docker run -i -t --name=$container -v $source_dir:$code_dir ubuntu:14.04 \
+$docker run --name=$container -v $source_dir:$code_dir ubuntu:14.04 \
     $code_dir/install/install-container.sh $code_dir/options.sh
 
 ### save the new image
