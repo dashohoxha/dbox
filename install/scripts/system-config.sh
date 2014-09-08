@@ -4,7 +4,7 @@
 cd $(dirname $0)
 
 ### copy overlay files over to the system
-cp -TdR $code_dir/labdoo/install/overlay/ /
+cp -TdR $code_dir/install/overlay/ /
 
 ### if this is a docker container, then
 ### supervisor should not run as a daemon

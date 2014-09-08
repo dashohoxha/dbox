@@ -59,7 +59,7 @@ fi
 ### make sure that we are using the right version of install scripts
 current_dir=$(pwd)
 cd $source_dir/
-git checkout $git_branch && git pull origin $git_branch
+git checkout $lbd_git_branch && git pull origin $lbd_git_branch
 cd $current_dir
 
 ### install debootstrap dchroot
@@ -81,13 +81,12 @@ chroot $target apt-get update
 chroot $target apt-get -y install ubuntu-minimal
 
 ### copy the local git repository to the target dir
-export code_dir=/usr/local/src
+source=$(basename $source_dir)
+export code_dir=/usr/local/src/$source
 chroot $target mkdir -p $code_dir
-cp -a $source_dir $target/$code_dir/
+cp -a $source_dir $(dirname $target/$code_dir)
 
 ### run install/config scripts
-source=$(basename $source_dir)
-code_dir=$code_dir/$source
 chroot $target $code_dir/install/install-and-config.sh
 
 ### create an init script
