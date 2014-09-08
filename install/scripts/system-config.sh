@@ -6,14 +6,6 @@ cd $(dirname $0)
 ### copy overlay files over to the system
 cp -TdR $code_dir/install/overlay/ /
 
-### if this is a docker container, then
-### supervisor should not run as a daemon
-if [ "$container" = 'true' ]
-then
-    sed -i /etc/supervisord.conf \
-        -e '/^nodaemon/ c nodaemon=true'
-fi
-
 ### put the cache on RAM (to improve efficiency)
 sed -i /etc/fstab \
     -e '/appended by installation scripts/,$ d'

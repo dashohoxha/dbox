@@ -117,7 +117,7 @@
 
    + Install the project inside a chroot system:
      #+BEGIN_EXAMPLE
-     time nohup nice myproject/install/chroot.sh myproject/cfg.sh &
+     nohup nice time myproject/install/chroot.sh myproject/cfg.sh &
      tail -f nohup.out
      less -r nohup.out
      #+END_EXAMPLE
@@ -154,7 +154,7 @@
 
    + Install the project in a container:
      #+BEGIN_EXAMPLE
-     time nohup nice myproject/install/docker.sh myproject/cfg.sh &
+     nohup nice time myproject/install/docker.sh myproject/cfg.sh &
      tail -f nohup.out
      less -r nohup.out
      #+END_EXAMPLE

@@ -1,5 +1,5 @@
 #!/bin/bash -x
-### Install a new chrooted server from scratch, with debootstrap.
+### Create a docker image.
 
 source_dir=$(dirname $(dirname $0))
 
@@ -19,6 +19,15 @@ Install $source_dir inside a container.
     exit 0
 }
 
+### collect in a file all the options and settings
+options=$source_dir/options.sh
+cat <<EOF > $options
+#!/bin/bash
+### This file contains all the options and settings
+### given to the install script from the command line.
+
+EOF
+
 ### get the options
 for opt in "$@"
 do
@@ -32,7 +41,8 @@ do
 	    optvalue=${opt#*=}
 	    optname=${opt%%=*}
 	    optname=${optname:2}
-	    eval export $optname="$optvalue"
+	    eval $optname="$optvalue"
+	    echo $optname="$optvalue" >> $options
 	    ;;
 	*)
 	    if [ ${opt:0:1} = '-' ]; then usage; fi
@@ -43,7 +53,10 @@ do
 		echo "File '$settings' does not exist."
 		exit 1
 	    fi
-	    set -a;  source $settings;  set +a
+	    source $settings
+	    echo "### Start: $settings" >> $options
+	    cat $settings >> $options
+	    echo "### End: $settings" >> $options
 	    ;;
     esac
 done
@@ -67,17 +80,19 @@ cd $current_dir
 docker=docker.io
 test "$(which $docker)" || apt-get install -y $docker
 
-### run the install script on the image ubuntu:14.04
+### get the code_dir
 source=$(basename $source_dir)
-export code_dir=/usr/local/src/$source
-cp $settings $source_dir/settings.sh
+code_dir=/usr/local/src/$source
+echo code_dir=/usr/local/src/$source >> $options
+
+### run the install script on the image ubuntu:14.04
 container=$source
 test "$($docker ps | grep -w $target)" && $docker stop $target
 test "$($docker ps -a | grep -w $target)" && $docker rm $target
 test "$($docker ps | grep -w $container)" && $docker stop $container
 test "$($docker ps -a | grep -w $container)" && $docker rm $container
 $docker run -i -t --name=$container -v $source_dir:$code_dir ubuntu:14.04 \
-    $code_dir/install/install-and-config.sh $code_dir/settings.sh
+    $code_dir/install/install-container.sh $code_dir/options.sh
 
 ### save the new image
 image=$container
