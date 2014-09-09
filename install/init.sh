@@ -18,6 +18,7 @@ case "$1" in
     stop)
         # stop the services inside the CHROOT
         chroot $CHROOT/ killall supervisord
+        sleep 2
 
         # kill any remaining processes that are still running on CHROOT
         chroot_pids=$(for p in /proc/*/root; do ls -l $p; done | grep $CHROOT | cut -d'/' -f3)
