@@ -4,6 +4,17 @@ core = 7.x
 defaults[projects][subdir] = contrib
 
 ;--------------------
+; Bootstrap Theme
+;--------------------
+
+projects[bootstrap] = 2.2
+projects[jquery_update] = 2.4
+
+libraries[bootstrap][directory_name] = bootstrap
+libraries[bootstrap][download][type] = get
+libraries[bootstrap][download][url] = https://github.com/twbs/bootstrap/archive/v3.0.0.zip
+
+;--------------------
 ; Contrib
 ;--------------------
 
