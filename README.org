@@ -117,7 +117,7 @@
 
    + Install the project inside a chroot system:
      #+BEGIN_EXAMPLE
-     nohup nice time myproject/install/chroot.sh myproject/cfg.sh &
+     nohup time nice myproject/install/chroot.sh myproject/cfg.sh &
      tail -f nohup.out
      less -r nohup.out
      #+END_EXAMPLE
@@ -144,31 +144,19 @@
    on the browser location (not =https://127.0.0.1= or
    =https://localhost=).
 
-** Installation in container
+** Installation in a docker container
 
-   + Modify and customize the settings:
-     #+BEGIN_EXAMPLE
-     cp myproject/install/settings.sh myproject/cfg.sh
-     vim myproject/cfg.sh
-     #+END_EXAMPLE
+   It is the same as the installation inside a chroot, but instead of
+   the script =install/chroot.sh=, the script =install/docker.sh= is
+   called, like this:
+   #+BEGIN_EXAMPLE
+   nohup time nice myproject/install/docker.sh myproject/cfg.sh &
+   #+END_EXAMPLE
+   This will create a docker container with a minimal ubuntu system
+   and everything that is needed for the normal work of the system.
 
-   + Install the project in a container:
-     #+BEGIN_EXAMPLE
-     nohup nice time myproject/install/docker.sh myproject/cfg.sh &
-     tail -f nohup.out
-     less -r nohup.out
-     #+END_EXAMPLE
-     This will create a docker container with a minimal ubuntu system
-     and everything that is needed for the normal work of the
-     system. It will also make the neccessary common configurations of
-     the system.
-
-   + After the installation is done, you can start and stop the
-     container with:
-     #+BEGIN_EXAMPLE
-     docker start mpr
-     docker stop mpr
-     #+END_EXAMPLE
+   After the installation is done, you can start and stop the
+   container with: =docker.io start mpr= and =docker.io stop mpr=.
 
 * Documentation
 
