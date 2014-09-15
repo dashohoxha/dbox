@@ -103,10 +103,13 @@ $docker commit $container $image
 $docker rm $container
 
 ### run the new image and create a container
+http_port=${http_port:-80}
+https_port=${https_port:-443}
+sshd_port=${sshd_port:-2201}
 $docker run --name=$target -d \
-    -p 80:80 -p 443:443 -p 2201:2201 \
+    -p $http_port:80 -p $https_port:443 -p $sshd_port:2201 \
+    -v $source_dir:$code_dir \
     $image /usr/bin/supervisord -c /etc/supervisor/supervisord.conf --nodaemon
-    # -p $sshd_port:$sshd_port -p $httpd_port:$httpd_port \
 
 ### start the container on boot
 if [ "$start_on_boot" = 'true' ]
