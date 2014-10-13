@@ -6,12 +6,12 @@
 
   The new project will contain:
   - A Drupal profile (which can also be based on the OpenAtrium
-    profile or the Drupal Commons profile).
-  - Make files for downloading the Drupal core, all the needed
+    profile).
+  - Makefiles for downloading the Drupal core, all the needed
     modules, libraries, patches, etc.
-  - Scripts for installing a minimal Ubuntu server with all the
-    packages and configurations needed for running a Drupal
-    application.
+  - Scripts for installing a minimal Ubuntu server inside a Docker
+    container, with all the packages and configurations needed for
+    running a Drupal application.
   - Scripts, modules, tools and docs that facilitate the development,
     including a dev-->test-->live workflow.
 
@@ -97,76 +97,48 @@
   with this name and prefix (labdoo and lbd), and this helps to
   maintain the template project. Any commit on the real project that
   improves the scripts or profiles, or that fixes any bugs, can be
-  cherry picked and commited to the template project. It works the
-  other way round as well: any change on the template project can be
+  cherry-picked and commited to the template project. It works the
+  other way around as well: any change on the template project can be
   transfered to the real project in order to be tested.
 
 
 * Install the new project
 
-  Installation is done by building a new server from scratch, inside a
-  chroot environment, or inside a container (built with docker).
+  Installation is done inside a Docker container.
 
-** Installation in chroot
+  + Modify and customize the settings:
+    #+BEGIN_EXAMPLE
+    cp myproject/install/settings.sh cfg.sh
+    vim myproject/cfg.sh
+    #+END_EXAMPLE
 
-   + Modify and customize the settings:
-     #+BEGIN_EXAMPLE
-     cp myproject/install/settings.sh myproject/cfg.sh
-     vim myproject/cfg.sh
-     #+END_EXAMPLE
+  + Build a Docker image:
+    #+BEGIN_EXAMPLE
+    myproject/docker-build.sh cfg.sh --git_branch=master
+    less -r nohup-myproject-master.out
+    #+END_EXAMPLE
+    This will create a docker image, named =myproject:master= with a
+    minimal ubuntu system and everything that is needed for the normal
+    work of the system.
 
-   + Install the project inside a chroot system:
-     #+BEGIN_EXAMPLE
-     nohup time nice myproject/install/chroot.sh myproject/cfg.sh &
-     tail -f nohup.out
-     less -r nohup.out
-     #+END_EXAMPLE
+  + Create a Docker container like this:
+    #+BEGIN_EXAMPLE
+    docker images
+    docker run -d --name=myproject --hostname=myproject.org \
+	       -p 80:80 -p 443:443 myproject:master
+    #+END_EXAMPLE
+    Then you can stop and start the container with =docker stop myproject=
+    and =docker start myproject=.
 
-   This will install in ~/var/chroot/~ a minimal ubuntu system and
-   everything that is needed for the normal work of the system. It
-   will also make the neccessary common configurations of the system.
-   After installation the system should be rebooted.
+  If it is installed on a local machine (for testing or development),
+  add the domain name =myproject.org= on ~/etc/hosts~:
+  #+BEGIN_EXAMPLE
+  127.0.0.1 myproject.org
+  #+END_EXAMPLE
+  This way it can be accessed by typing =https://myproject.org=
+  on the browser location (not =https://127.0.0.1= or
+  =https://localhost=).
 
-   The installation script will also create the init script
-   ~/etc/init.d/chroot-mpr~, which can be used to start and stop the
-   services inside the chroot:
-   #+BEGIN_EXAMPLE
-   /etc/init.d/chroot-mpr start
-   /etc/init.d/chroot-mpr stop
-   #+END_EXAMPLE
-
-   If this is a local copy (installed on a local machine), then add
-   the domain name =dev.myproject.org= on ~/etc/hosts~:
-   #+BEGIN_EXAMPLE
-   127.0.0.1       dev.myproject.org  localhost
-   #+END_EXAMPLE
-   This way it can be accessed by typing =https://dev.myproject.org=
-   on the browser location (not =https://127.0.0.1= or
-   =https://localhost=).
-
-** Installation in a docker container
-
-   It is the same as the installation inside a chroot, but instead of
-   the script =install/chroot.sh=, the script =install/docker.sh= is
-   called, like this:
-   #+BEGIN_EXAMPLE
-   nohup time nice myproject/install/docker.sh myproject/cfg.sh &
-   #+END_EXAMPLE
-   This will create a docker container with a minimal ubuntu system
-   and everything that is needed for the normal work of the system.
-
-   After the installation is done, you can start and stop the
-   container with: =docker.io start mpr= and =docker.io stop mpr=.
-
-** Building with docker
-
-   Another way is to use the command =docker build= to build an image
-   and then =docker run= to create a container from this image:
-   #+BEGIN_EXAMPLE
-   vim labdoo/install/settings.sh
-   docker.io build --tag=labdoo labdoo/
-   docker.io run -d --name=lbd --hostname=example.org -p 80:80 -p 443:443 labdoo
-   #+END_EXAMPLE
 
 * Documentation
 
