@@ -19,4 +19,4 @@ projects[labdoo][download][branch] = openatrium
 ;------------------------------
 projects[openatrium][type] = profile
 projects[openatrium][download][type] = git
-projects[openatrium][download][tag] = 7.x-2.21
+projects[openatrium][download][tag] = 7.x-2.22
