@@ -16,7 +16,7 @@ projects[jquery_update] = 2.4
 
 libraries[bootstrap][directory_name] = bootstrap
 libraries[bootstrap][download][type] = get
-libraries[bootstrap][download][url] = https://github.com/twbs/bootstrap/archive/v3.0.0.zip
+libraries[bootstrap][download][url] = https://github.com/twbs/bootstrap/archive/v3.2.0.zip
 
 ;--------------------
 ; Contrib
@@ -92,7 +92,7 @@ projects[phpmailer][download][branch] = 7.x-3.x
 
 libraries[phpmailer][directory_name] = phpmailer
 libraries[phpmailer][download][type] = get
-libraries[phpmailer][download][url] = https://github.com/PHPMailer/PHPMailer/archive/v5.2.6.zip
+libraries[phpmailer][download][url] = https://github.com/PHPMailer/PHPMailer/archive/v5.2.9.zip
 
 ;--------------------
 ; Libraries
@@ -100,4 +100,4 @@ libraries[phpmailer][download][url] = https://github.com/PHPMailer/PHPMailer/arc
 
 libraries[tinymce][directory_name] = tinymce
 libraries[tinymce][download][type] = get
-libraries[tinymce][download][url] = http://github.com/downloads/tinymce/tinymce/tinymce_3.5.7.zip
+libraries[tinymce][download][url] = https://github.com/tinymce/tinymce/archive/4.1.6.zip
