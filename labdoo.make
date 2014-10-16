@@ -3,30 +3,16 @@ core = 7.x
 
 defaults[projects][subdir] = contrib
 
-;--------------------
-; Bootstrap Theme
-;--------------------
-
-projects[bootstrap] = 2.2
-projects[jquery_update] = 2.4
-
-libraries[bootstrap][directory_name] = bootstrap
-libraries[bootstrap][download][type] = get
-libraries[bootstrap][download][url] = https://github.com/twbs/bootstrap/archive/v3.0.0.zip
 
 ;--------------------
 ; Contrib
 ;--------------------
 
 ;;; Extensions
-projects[xautoload] = 5.2
+projects[xautoload] = 52
 projects[rules] = 2.9
-
-; ;;; User interface
-; projects[context] = 3.6
-; projects[homebox] = 2.0-rc1
-; projects[boxes] = 1.2
 projects[edit_profile] = 1.0-beta2
+;projects[jquery_update] = 2.4
 
 ;;; Security
 projects[captcha] = 1.3
@@ -53,8 +39,6 @@ projects[] = memcache
 ; Sending Emails
 ;--------------------
 
-;projects[mailsystem] = 2.34
-;projects[mimemail] = 1.0-beta4
 projects[reroute_email] = 1.2
 
 ;projects[phpmailer] = 3.x-dev

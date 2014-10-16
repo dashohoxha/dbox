@@ -47,13 +47,6 @@ dependencies[] = xautoload
 dependencies[] = rules_scheduler
 dependencies[] = rules_admin
 
-; ;;; User Interface
-; dependencies[] = context
-; dependencies[] = context_ui
-; dependencies[] = boxes
-; dependencies[] = edit_profile
-; dependencies[] = color
-
 ;;; Features
 dependencies[] = fe_block
 dependencies[] = node_export
