@@ -16,6 +16,7 @@ $lbd/config/mysql_passwords.sh
 $lbd/config/mysql_labdoo.sh
 $lbd/config/gmailsmtp.sh
 $lbd/config/drupalpass.sh
+$lbd/config/ssh_keys.sh
 
 if [ "$development" = 'true' ]
 then
