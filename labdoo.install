@@ -17,7 +17,7 @@ function labdoo_install_tasks(&$install_state) {
   module_load_include('inc', 'phpmailer', 'phpmailer.admin');
 
   // Call the hook of the base profile.
-  $tasks = openatrium_install_tasks(&$install_state);
+  $tasks = openatrium_install_tasks($install_state);
 
   // Append new installation tasks.
   $tasks += array(

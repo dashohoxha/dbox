@@ -22,7 +22,7 @@ function labdoo_apps_servers_info() {
  */
 function labdoo_form_install_configure_form_alter(&$form, $form_state) {
   // Call the hook of the base profile.
-  openatrium_form_install_configure_form_alter(&$form, &$form_state);
+  openatrium_form_install_configure_form_alter($form, $form_state);
 
   // Pre-populate the site name with the server name.
   $form['site_information']['site_name']['#default_value'] = 'Labdoo';
