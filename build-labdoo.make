@@ -11,7 +11,7 @@ includes[drupal] = drupal-org-core.make
 ;------------------------------
 projects[openatrium][type] = profile
 projects[openatrium][download][type] = git
-projects[openatrium][download][tag] = 7.x-2.22
+projects[openatrium][download][tag] = 7.x-2.40-rc1
 
 ;------------------------------
 ; Get profile labdoo.
