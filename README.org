@@ -43,68 +43,45 @@
   A new project is created by renaming files of the template project
   and doing find/replace in them.
 
-  + Get a copy of the template project from GitHub:
-    #+BEGIN_EXAMPLE
-    mkdir /var/chroot
-    cd /var/chroot/
-    git clone --branch master https://github.com/dashohoxha/dbox.git
-    #+END_EXAMPLE
-    The branch /openatrium/ can be used as well, instead of the
-    /master/ branch.
+  #+BEGIN_EXAMPLE
+  ### clone from github
+  git clone https://github.com/dashohoxha/dbox.git
+  cp -a dbox myproject
+  cd myproject/
 
-  + Rename the project:
-    #+BEGIN_EXAMPLE
-    dbox/rename-project.sh  # see usage
-    dbox/rename-project.sh labdoo:myproject lbd:mpr
-    mv dbox myproject
-    #+END_EXAMPLE
+  # git checkout openatrium  ## optionally, use the branch 'openatrium'
 
-  + Initialize a git repository:
-    #+BEGIN_EXAMPLE
-    cd myproject/
-    git init .
-    git add $(git ls-files --others)
-    git commit -a -m 'My new project.'
-    #+END_EXAMPLE
+  ### rename the project
+  ./rename-project.sh  # see usage
+  ./rename-project.sh labdoo:myproject lbd:proj
 
-    Instead of initializing a new repo with =git init .= you
-    can also copy =.git= from en existing project, like this: 
-    #+BEGIN_EXAMPLE
-    cp -a ../dbox/.git .
-    git add $(git ls-files --others)
-    git rm $(git ls-files --deleted)
-    git add $(git ls-files --modified)
-    #+END_EXAMPLE
-
+  ### create a git repo
+  git init .
+  git add .
+  git commit -m 'Initial commit.'
+  #+END_EXAMPLE
 
   The script ~rename-project.sh~ works by renaming files of the
   template project and doing find/replace in them. There are two
   parameters that are used to customize the template project: the
-  project name and the project prefix. In the template project they
-  are represented by *labdoo* and *lbd*, which are then replaced in
-  the new project by the new project’s name and prefix.
+  /project name/ and the /project prefix/. In the template project
+  they are represented by *labdoo* and *lbd*, which are then replaced
+  in the new project by the new project’s name and prefix.
 
   Why these strange names? Why not use something like *example* and
   *xmp*, or *sample* and *smp*, or *template* and *tmp* etc.
 
-  The first reason is exactly that they are strange names and so
-  there is no risk of collision with other names used in a
-  project. For example *xmp* or *template* or *tmp* maybe are used on
-  the project for something else as well, and replacing them blindly
-  with a new value may break the application.
-
-  The second reason is that there is actually a real Drupal project
-  with this name and prefix (labdoo and lbd), and this helps to
-  maintain the template project. Any commit on the real project that
-  improves the scripts or profiles, or that fixes any bugs, can be
-  cherry-picked and commited to the template project. It works the
-  other way around as well: any change on the template project can be
-  transfered to the real project in order to be tested.
+  The main reason is exactly that they are strange names and so there
+  is no risk of collision with other names used in a project. For
+  example *xmp* or *template* or *tmp* maybe are used on the project
+  for something else as well, and replacing them blindly with a new
+  value may break the application.
 
 
 * Install the new project
 
-  Installation is done inside a Docker container.
+  Installation is done inside a Docker container. For instructions
+  about installing Docker see: https://docs.docker.com/installation/
 
   + Modify and customize the settings:
     #+BEGIN_EXAMPLE
@@ -114,28 +91,29 @@
 
   + Build a Docker image:
     #+BEGIN_EXAMPLE
-    myproject/docker-build.sh cfg.sh --git_branch=master
+    myproject/docker-build.sh cfg.sh
+    tail -f nohup-myproject-master.out
     less -r nohup-myproject-master.out
     #+END_EXAMPLE
     This will create a docker image, named =myproject:master= with a
     minimal ubuntu system and everything that is needed for the normal
-    work of the system.
+    work of the Drupal application.
 
   + Create a Docker container like this:
     #+BEGIN_EXAMPLE
     docker images
-    docker run -d --name=myproject --hostname=myproject.org \
+    docker create --name=myproject --hostname=example.org \
 	       -p 80:80 -p 443:443 myproject:master
     #+END_EXAMPLE
-    Then you can stop and start the container with =docker stop myproject=
-    and =docker start myproject=.
+    Then you can start and stop the container with =docker start myproject=
+    and =docker stop myproject=.
 
   If it is installed on a local machine (for testing or development),
-  add the domain name =myproject.org= on ~/etc/hosts~:
+  add the domain name =example.org= on ~/etc/hosts~:
   #+BEGIN_EXAMPLE
-  127.0.0.1 myproject.org
+  127.0.0.1 example.org
   #+END_EXAMPLE
-  This way it can be accessed by typing =https://myproject.org=
+  This way it can be accessed by typing =https://example.org=
   on the browser location (not =https://127.0.0.1= or
   =https://localhost=).
 
@@ -148,15 +126,13 @@
     + [[https://github.com/dashohoxha/dbox/blob/master/modules/features/README.org][modules/features/README.org]]
 
   - External docs:
-    + http://academia.edu/3993827/Development_Setup_Of_B-Translator
-    + http://academia.edu/3992404/Using_Drupal_Features_In_B-Translator
-    + http://www.academia.edu/4054221/Cloning_a_B-Translator_Server
+    + http://info.btranslator.org/docs/html/btranslator-dev-tips.html
+    + http://dashohoxha.fs.al/using-drupal-features-in-btranslator/
+    + http://dashohoxha.fs.al/cloning-btranslator-server/
 
   - Other docs that may be useful:
     + http://codeinthehole.com/writing/pull-requests-and-other-good-practices-for-teams-using-github/
-    + http://dashohoxha.blogspot.com/2012/08/how-to-secure-ubuntu-server.html
-    + http://dashohoxha.blogspot.com/2013/07/how-to-manage-your-own-domain-name.html
-    + http://dashohoxha.blogspot.com/2013/02/how-to-set-up-chroot-environment-for.html
-    + http://dashohoxha.blogspot.com/2012/10/using-nginx-as-web-server-for-drupal.html
+    + http://dashohoxha.fs.al/how-to-secure-ubuntu-server/
+    + http://dashohoxha.fs.al/howto-manage-your-own-nameserver/
     + http://www.havetheknowhow.com/Configure-the-server/Install-ssmtp.html
     + http://arstechnica.com/security/2009/12/how-to-get-set-with-a-secure-sertificate-for-free/
