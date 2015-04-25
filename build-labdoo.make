@@ -12,7 +12,7 @@ includes[drupal] = drupal-org-core.make
 projects[openatrium][type] = profile
 projects[openatrium][download][type] = git
 projects[openatrium][download][tag] = 7.x-2.40-rc1
-projects[openatrium][patch][makefile] = https://github.com/dashohoxha/dbox/raw/openatrium/utils/fix-openatrium-makefile-for-drush-6.patch
+projects[openatrium][patch][makefile] = https://www.drupal.org/files/issues/fix-openatrium-makefile-for-drush-6.patch
 
 ;------------------------------
 ; Get profile labdoo.
