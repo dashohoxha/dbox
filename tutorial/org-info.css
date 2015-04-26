@@ -1,0 +1,211 @@
+
+@import url(https://fonts.googleapis.com/css?family=Arvo:400,700,400italic);
+
+/* Base text styles */
+
+body {
+  padding:10px 50px 50px 40px;
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  color: #232323;
+  background-color: #FBFAF7;
+  margin: 0;
+  line-height: 1.8em;
+  -webkit-font-smoothing: antialiased;
+
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color:#aa2323;
+  margin:25px 0 10px;
+  font-weight: bold;
+}
+
+p, ul, ol, table, dl {
+  margin:0 0 10px;
+}
+
+dl {
+  margin-left: 50px;
+}
+
+dl dl {
+  margin-left: 10px;
+}
+
+dt {
+  display: list-item;
+  list-style-type: disc;
+}
+
+dd dt {
+  list-style-type: circle;
+}
+
+h1, h2, h3 {
+  font-family: Arvo, Monaco, serif;
+  line-height:1.3em;
+  font-weight: normal;
+  display: block;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h3, .outline-text-3 {
+  margin-left: 30px;
+}
+
+#postamble {
+  margin-top: 40px;
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+  margin-left: 0px;
+  font-size: 75%;
+  line-height: 75%;
+  font-color: #ddd;
+}
+
+h4, h5, h6 {
+  font-family: Arvo, Monaco, serif;
+  font-weight: 700;
+}
+
+a {
+  color:#2323cc;
+  font-weight:200;
+  text-decoration:none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a small {
+  font-size: 12px;
+}
+
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight:700;
+}
+
+ul li {
+  list-style: inside;
+  padding-left: 15px;
+}
+
+ol li {
+  list-style: decimal inside;
+  padding-left: 10px;
+}
+
+blockquote {
+  margin: 0;
+  padding: 0 0 0 15px;
+  font-style: italic;
+}
+
+dl, dt, dd, dl p {
+  font-color: #444;
+}
+
+dl dt {
+  font-weight: bold;
+}
+
+/*
+dl dd {
+  padding-left: 15px;
+  font-style: italic;
+}
+
+dl p {
+  padding-left: 15px;
+  font-style: italic;
+}
+*/
+
+hr {
+  border:0;
+  background:#ccc;
+  height:1px;
+  margin:0 0 20px;
+}
+
+/* Images */
+
+img {
+  position: relative;
+  margin: 0 auto;
+  max-width: 650px;
+  padding: 5px;
+  margin: 10px 0 32px 0;
+  border: 1px solid #ccc;
+}
+
+
+/* Code blocks */
+
+code {
+  font-family: Ubuntu Mono, monospace, courier;
+  color: #009900;
+  white-space: nowrap;
+  border: 1pt solid #AEBDCC;
+  border-radius: 4px;
+  padding: 3px;
+}
+
+pre {
+  overflow: auto;
+  overflow-y: hidden;
+  margin: 2px 30px 5px 15px;
+  padding: 5px 15px;
+  border: 1pt solid #AEBDCC;
+  border-radius: 5px;
+  background-color: #000000;
+  color: #eeeeee;
+  font-family: Ubuntu Mono, monospace, courier;
+  font-size: 20px;
+  line-height: 1.3em;
+}
+
+/* Tables */
+
+table {
+  width:100%;
+}
+
+table {
+  border: 1px solid #ccc;
+  margin-bottom: 32px;
+  text-align: left;
+ }
+
+th {
+  font-family: 'Arvo', Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: normal;
+  padding: 10px;
+  background: #232323;
+  color: #FDFEFB;
+ }
+
+td {
+  padding: 0px 10px;
+  background: #ccff88;
+ }

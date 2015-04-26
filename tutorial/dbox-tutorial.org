@@ -1,0 +1,368 @@
+#+TITLE:     DBox Tutorial
+#+AUTHOR:    Dashamir Hoxha
+#+EMAIL:     dashohoxha@gmail.com
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:nil toc:t \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:nil LaTeX:nil skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:info toc:t ltoc:t mouse:#aadddd buttons:0 path:org-info.js
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="org-info.css" />
+
+* Introduction
+
+** What is DrupalBox
+
+   DrupalBox is a template Drupal project that can be used to seed
+   (create) a new Drupal project quickly and easily.
+
+   The new project will contain:
+   - A Drupal profile (which can also be based on the OpenAtrium
+     profile).
+   - Makefiles for downloading the Drupal core, all the needed
+     modules, libraries, patches, etc.
+   - Scripts for installing a minimal Ubuntu server inside a Docker
+     container, with all the packages and configurations needed for
+     running a Drupal application.
+   - Scripts, modules, tools and docs that facilitate the development,
+     including a dev-->test-->live workflow.
+
+  
+** Why it is useful
+
+   Usually a huge number of skills is needed in order to complete
+   successfully a Drupal project, like:
+    - server management
+    - web stack management
+    - database management
+    - drush skills
+    - how to work with Drupal profiles
+    - frequently used modules
+    - common Drupal development patterns and paradigms
+    - etc.
+
+   This project helps the developers with a Drupal solution that works
+   out of the box, with reasonable settings and configurations, which
+   they can use as a starting point for developing their application.
+
+** Prerequisites
+
+   DrupalBox is also DockerBox, which means that it runs inside a
+   Docker virtual machine. So, we need to have Docker installed, and we
+   need some basic familiarity with it.
+
+   Do on your own the following installations and preparatory work,
+   before the trainig.
+
+   - What is Docker: https://www.youtube.com/watch?v=ZzQfxoMFH0U
+
+   - Try it: https://www.docker.com/tryit/
+
+   - Install Docker: https://docs.docker.com/installation/
+
+   - Pull the Docker image =ubuntu-upstart:14.04=:
+     #+begin_example
+     docker pull ubuntu-upstart:14.04
+     #+end_example
+
+   - Install =docker-enter=:
+     #+begin_example
+     docker run -v /usr/local/bin:/target jpetazzo/nsenter
+     #+end_example
+
+
+* Creating a new project
+
+** Clone DBox from GitHub
+
+   #+begin_example
+   git clone https://github.com/dashohoxha/dbox.git myproject
+   cd myproject/
+   #+end_example
+
+   Optionally, use the branch *openatrium*:
+   #+begin_example
+   git checkout openatrium
+   #+end_example
+
+** Rename the project
+
+   #+begin_example
+   ./rename-project.sh  # see usage
+   ./rename-project.sh labdoo:myproject lbd:proj
+   #+end_example
+
+   The script ~rename-project.sh~ works by renaming files of the
+   template project and doing find/replace in them. There are two
+   parameters that are used to customize the template project: the
+   /project name/ and the /project prefix/. In the template project
+   they are represented by *labdoo* and *lbd*, which are then replaced
+   in the new project by the new project’s name and prefix.
+
+** Create a Git repo for the new project:
+
+   The script ~rename-project.sh~ has also removed the directory
+   =.git= of the old project, so it is neccessary to initialize a new
+   Git repository for the new project.
+
+   #+begin_example
+   git init .
+   git add .
+   git commit -m 'Initial commit.'
+   #+end_example
+
+
+* Installing the new project
+
+  Installation is done inside a Docker container.
+
+** Modify and customize the settings
+
+   #+begin_example
+   cd myproject/
+   cp install/settings.sh cfg.sh
+   vim cfg.sh
+   #+end_example
+
+   The =git_branch= should be =master= because this is the only branch
+   that we currently have on the new project.
+
+** Build a Docker image
+
+   #+begin_example
+   cd ..
+   myproject/docker-build.sh myproject/cfg.sh
+   Ctrl+C
+   tail -f nohup-myproject-master.out
+   less -r nohup-myproject-master.out
+   #+end_example
+
+   This will create a docker image, named =myproject:master= with a
+   minimal ubuntu system and everything that is needed for the normal
+   work of the Drupal application.
+
+   *Note:* This may take about an hour because it downloads and
+   installs all Ubuntu packages, and then downloads and installs all
+   the Drupal modules that are needed.
+
+** Create a Docker container
+
+   #+begin_example
+   docker images
+   docker create --name=myprj --hostname=example.org \
+                 -p 80:80 -p 443:443 myproject:master
+   #+end_example
+
+   Now we can start and stop the container with:
+   #+begin_example
+   docker start myprj
+   docker stop myprj
+   docker restart myprj
+   #+end_example
+
+
+* Docker tips and tricks
+
+  Docker is a very good platform for deployment. It can be used for
+  development too, but we need to know first a few tricks.  We will
+  see some of them here.
+
+** Accessing the shell
+
+   We need to access the shell of the installed system in order to
+   check log files, debug, play with changing configurations, etc.
+
+   For this we can install the command =docker-enter=:
+   #+begin_example
+   docker run -v /usr/local/bin:/target jpetazzo/nsenter
+   #+end_example
+
+   Then access the shell of a running container like this:
+   #+begin_example
+   docker-enter myprj
+   #+end_example
+
+   This is similar to =chroot=.
+
+** Installing sshd
+
+   If we want to start a sshd server on port 2201 inside the
+   container, we can do it like this:
+   #+begin_example
+   docker-enter myprj
+   cd /usr/local/src/myproject/
+   dev/install-sshd.sh 2201
+   #+end_example
+
+   However, when we created the container with =docker create= we did
+   not think about forwarding this port. We have to destroy this
+   container and create a new one, with an addition =-p= option for
+   the port *2201*. But first we should use the command =docker
+   commit= to save to a new image any configurations and data that we
+   already have in this container.
+   #+begin_example
+   docker stop myprj
+   docker commit myprj myproject:v1
+   docker images
+   docker rm myproj
+   docker create --name=myprj --hostname=example.org \
+                 -p 80:80 -p 443:443 -p 2201:2201 \
+                 myproject:v1
+   #+end_example
+
+** Sharing files
+
+   In general it is not possible to directly access the directories
+   and files of a container from the host system (and vice-versa).
+   However we can use the docker /volumes/ to share directories
+   between the container and the host. It can be done like this:
+
+   + First we make a backup of the directory inside the container that
+     we want to share (~/var/www/proj/profiles/myproject/~):
+     #+begin_example
+     docker-enter myprj
+     cd /var/www/proj/profiles/
+     cp -a myproject/ myproject-bak
+     exit
+     #+end_example
+
+   + Then we save the image of the container, in order to start a new
+     container based on it:
+     #+begin_example
+     docker stop myprj
+     docker commit myprj myproject:v2
+     docker images
+     #+end_example
+
+   + Next we create a new container that shares a directory with the
+     host system (using the option =-v=):
+     #+begin_example
+     docker rm myprj
+     mkdir proj/
+     docker create --name=myprj --hostname=example.org \
+                -v $(pwd)/proj:/var/www/proj/profiles/myproject/ \
+                -p 80:80 -p 443:443 -p 2201:2201 \
+                myproject:v2
+     docker start myprj
+     #+end_example
+
+   + Finally we enter the container and move the content of the backup
+     directory to the shared directory:
+     #+begin_example
+     docker-enter myprj
+     cd /var/www/proj/profiles/myproject/
+     cp -a ../myproject-bak/* .
+     cp -a ../myproject-bak/.* .
+     rm -rf ../myproject-bak/
+     exit
+     #+end_example
+
+   Now we can go to the directory *proj/* on the host and start
+   /emacs/ or any other tools. This way we don't have to install
+   /emacs/ or any other development tools inside the container and we
+   can use the best of development tools that the host system can
+   offer.
+
+
+* Managing the Drupal application
+
+** Making clones
+
+   Clones of the main site can be used for development and testing.
+
+   Inside the container we can make a clone for development like this:
+   #+begin_example
+   docker-enter myprj
+   cd /usr/local/src/myproject/
+   dev/clone.sh proj proj_dev1
+   dev/clone.sh proj_dev1 proj_test1
+   #+end_example
+
+   It creates a new application with root ~/var/www/proj_dev1/~ and
+   with DB named =proj_dev1=. It also creates the drush alias
+   =@proj_dev1=, and modifies the configuration of the webserver so
+   that the cloned application can be accessed at =dev1.example.org=.
+
+   *Caution:* The root directory and the DB of the clone will be
+   erased, if they exist.
+
+   Other clones like this can be created for testing etc. To cleanup
+   (remove/erase) a clone, we can use =clone_rm.sh= like this:
+   #+begin_example
+   docker-enter proj
+   cd /usr/local/src/myproject/
+   dev/clone_rm.sh proj_dev1
+   dev/clone_rm.sh proj_test1
+   #+end_example
+
+** Re-installing
+
+   It can be done with the script =dev/reinstall.sh=:
+   #+begin_example
+   docker-enter proj
+   cd /usr/local/src/myproject/
+   nohup nice dev/reinstall.sh settings.sh &
+   tail -f nohup.out
+   #+end_example
+   It will rebuild the Drupal directory with =drush make= and install
+   the *myproject* profile with =drush site-install=, and then do all the
+   rest of configurations just like they are done during installation.
+
+   Normally there is no need to reinstall the application, unless we
+   want to test the installation profile and the installation scripts.
+
+   Another kind of re-installation, which touches only the database of
+   Drupal and nothing else, can be done with the script
+   =dev/reinstall-db.sh=:
+   #+begin_example
+   docker-enter proj
+   cd /usr/local/src/myproject/
+   nohup nice dev/reinstall-db.sh @proj_dev &
+   tail -f nohup.out
+   #+end_example
+
+   This is useful for testing the installation of custom modules,
+   feature modules, etc. The argument =@proj_dev= is the alias of the
+   site that should be reinstalled.
+
+** Making backups
+
+   Sometimes, when testing things on Drupal (installing/uninstalling
+   modules etc.) things get messy and it is not possible to revert
+   back again to the state that you were before starting the test. In
+   this case the only way to get safely to a previous stable state is
+   by restoring a backup (or installing from the scratch and repeating
+   all the configurations).
+
+   A snapshot of the application is just like a full backup with a time
+   stamp. It saves the state of the application at a certain time, both
+   the code (the whole Drupal directory) and the database. It can be
+   done like this:
+   #+begin_example
+   docker-enter proj
+   cd /usr/local/src/myproject/
+   dev/snapshot.sh make @proj
+   dev/snapshot.sh make @proj_dev
+   #+end_example
+   These will create the files ~snapshot-proj-20150426.tgz~ and
+   ~snapshot-proj_dev-20150426.tgz~. They can be restored like this:
+   #+begin_example
+   dev/snapshot.sh restore @proj --file=snapshot-proj-20150426.tgz
+   dev/snapshot.sh restore @proj --file=snapshot-proj_dev-20150426.tgz
+   dev/snapshot.sh restore @proj_dev --file=snapshot-proj-20150426.tgz
+   dev/snapshot.sh restore @proj_dev --file=snapshot-proj_dev-20150426.tgz
+   #+end_example
+   As you may notice, a snapshot of *@proj_dev* can also be restored on the
+   main application, and the other way around.
+
+   However, in many cases a backup/restore of the database is all that
+   is needed, and it is more efficient. It can be done with =drush
+   sql-dump= and =drush sql-query= like this:
+   #+begin_example
+   drush sql-dump @proj > proj.sql
+   drush sql-dump @proj_dev > proj_dev.sql
+
+   drush @proj sql-query --file=$(pwd)/proj.sql
+   drush @proj sql-query --file=$(pwd)/proj_dev.sql
+
+   drush @proj_dev sql-query --file=$(pwd)/proj.sql
+   drush @proj_dev sql-query --file=$(pwd)/proj_dev.sql
+   #+end_example

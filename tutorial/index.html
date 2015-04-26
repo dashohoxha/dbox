@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>DBox Tutorial</title>
+<!-- 2015-04-26 Sun 12:09 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Dashamir Hoxha" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="org-info.css" />
+
+<script type="text/javascript" src="org-info.js">
+/**
+ *
+ * @source: org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "3");
+org_html_manager.set("LINK_HOME", "");
+org_html_manager.set("LINK_UP", "");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "#aadddd");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">DBox Tutorial</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Introduction</a>
+<ul>
+<li><a href="#sec-1-1">What is DrupalBox</a></li>
+<li><a href="#sec-1-2">Why it is useful</a></li>
+<li><a href="#sec-1-3">Prerequisites</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">Creating a new project</a>
+<ul>
+<li><a href="#sec-2-1">Clone DBox from GitHub</a></li>
+<li><a href="#sec-2-2">Rename the project</a></li>
+<li><a href="#sec-2-3">Create a Git repo for the new project:</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">Installing the new project</a>
+<ul>
+<li><a href="#sec-3-1">Modify and customize the settings</a></li>
+<li><a href="#sec-3-2">Build a Docker image</a></li>
+<li><a href="#sec-3-3">Create a Docker container</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">Docker tips and tricks</a>
+<ul>
+<li><a href="#sec-4-1">Accessing the shell</a></li>
+<li><a href="#sec-4-2">Installing sshd</a></li>
+<li><a href="#sec-4-3">Sharing files</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">Managing the Drupal application</a>
+<ul>
+<li><a href="#sec-5-1">Making clones</a></li>
+<li><a href="#sec-5-2">Re-installing</a></li>
+<li><a href="#sec-5-3">Making backups</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Introduction</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">What is DrupalBox</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+DrupalBox is a template Drupal project that can be used to seed
+(create) a new Drupal project quickly and easily.
+</p>
+
+<p>
+The new project will contain:
+</p>
+<ul class="org-ul">
+<li>A Drupal profile (which can also be based on the OpenAtrium
+profile).
+</li>
+<li>Makefiles for downloading the Drupal core, all the needed
+modules, libraries, patches, etc.
+</li>
+<li>Scripts for installing a minimal Ubuntu server inside a Docker
+container, with all the packages and configurations needed for
+running a Drupal application.
+</li>
+<li>Scripts, modules, tools and docs that facilitate the development,
+including a dev&#x2013;&gt;test&#x2013;&gt;live workflow.
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Why it is useful</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Usually a huge number of skills is needed in order to complete
+successfully a Drupal project, like:
+</p>
+<ul class="org-ul">
+<li>server management
+</li>
+<li>web stack management
+</li>
+<li>database management
+</li>
+<li>drush skills
+</li>
+<li>how to work with Drupal profiles
+</li>
+<li>frequently used modules
+</li>
+<li>common Drupal development patterns and paradigms
+</li>
+<li>etc.
+</li>
+</ul>
+
+<p>
+This project helps the developers with a Drupal solution that works
+out of the box, with reasonable settings and configurations, which
+they can use as a starting point for developing their application.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Prerequisites</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+DrupalBox is also DockerBox, which means that it runs inside a
+Docker virtual machine. So, we need to have Docker installed, and we
+need some basic familiarity with it.
+</p>
+
+<p>
+Do on your own the following installations and preparatory work,
+before the trainig.
+</p>
+
+<ul class="org-ul">
+<li>What is Docker: <a href="https://www.youtube.com/watch?v=ZzQfxoMFH0U">https://www.youtube.com/watch?v=ZzQfxoMFH0U</a>
+</li>
+
+<li>Try it: <a href="https://www.docker.com/tryit/">https://www.docker.com/tryit/</a>
+</li>
+
+<li>Install Docker: <a href="https://docs.docker.com/installation/">https://docs.docker.com/installation/</a>
+</li>
+
+<li>Pull the Docker image <code>ubuntu-upstart:14.04</code>:
+<pre class="example">
+docker pull ubuntu-upstart:14.04
+</pre>
+</li>
+
+<li>Install <code>docker-enter</code>:
+<pre class="example">
+docker run -v /usr/local/bin:/target jpetazzo/nsenter
+</pre>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Creating a new project</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Clone DBox from GitHub</h3>
+<div class="outline-text-3" id="text-2-1">
+<pre class="example">
+git clone https://github.com/dashohoxha/dbox.git myproject
+cd myproject/
+</pre>
+
+<p>
+Optionally, use the branch <b>openatrium</b>:
+</p>
+<pre class="example">
+git checkout openatrium
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">Rename the project</h3>
+<div class="outline-text-3" id="text-2-2">
+<pre class="example">
+./rename-project.sh  # see usage
+./rename-project.sh labdoo:myproject lbd:proj
+</pre>
+
+<p>
+The script <code>rename-project.sh</code> works by renaming files of the
+template project and doing find/replace in them. There are two
+parameters that are used to customize the template project: the
+<i>project name</i> and the <i>project prefix</i>. In the template project
+they are represented by <b>labdoo</b> and <b>lbd</b>, which are then replaced
+in the new project by the new project’s name and prefix.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">Create a Git repo for the new project:</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+The script <code>rename-project.sh</code> has also removed the directory
+<code>.git</code> of the old project, so it is neccessary to initialize a new
+Git repository for the new project.
+</p>
+
+<pre class="example">
+git init .
+git add .
+git commit -m 'Initial commit.'
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Installing the new project</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Installation is done inside a Docker container.
+</p>
+</div>
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">Modify and customize the settings</h3>
+<div class="outline-text-3" id="text-3-1">
+<pre class="example">
+cd myproject/
+cp install/settings.sh cfg.sh
+vim cfg.sh
+</pre>
+
+<p>
+The <code>git_branch</code> should be <code>master</code> because this is the only branch
+that we currently have on the new project.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">Build a Docker image</h3>
+<div class="outline-text-3" id="text-3-2">
+<pre class="example">
+cd ..
+myproject/docker-build.sh myproject/cfg.sh
+Ctrl+C
+tail -f nohup-myproject-master.out
+less -r nohup-myproject-master.out
+</pre>
+
+<p>
+This will create a docker image, named <code>myproject:master</code> with a
+minimal ubuntu system and everything that is needed for the normal
+work of the Drupal application.
+</p>
+
+<p>
+<b>Note:</b> This may take about an hour because it downloads and
+installs all Ubuntu packages, and then downloads and installs all
+the Drupal modules that are needed.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3">Create a Docker container</h3>
+<div class="outline-text-3" id="text-3-3">
+<pre class="example">
+docker images
+docker create --name=myprj --hostname=example.org \
+              -p 80:80 -p 443:443 myproject:master
+</pre>
+
+<p>
+Now we can start and stop the container with:
+</p>
+<pre class="example">
+docker start myprj
+docker stop myprj
+docker restart myprj
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Docker tips and tricks</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Docker is a very good platform for deployment. It can be used for
+development too, but we need to know first a few tricks.  We will
+see some of them here.
+</p>
+</div>
+
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">Accessing the shell</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+We need to access the shell of the installed system in order to
+check log files, debug, play with changing configurations, etc.
+</p>
+
+<p>
+For this we can install the command <code>docker-enter</code>:
+</p>
+<pre class="example">
+docker run -v /usr/local/bin:/target jpetazzo/nsenter
+</pre>
+
+<p>
+Then access the shell of a running container like this:
+</p>
+<pre class="example">
+docker-enter myprj
+</pre>
+
+<p>
+This is similar to <code>chroot</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2">Installing sshd</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+If we want to start a sshd server on port 2201 inside the
+container, we can do it like this:
+</p>
+<pre class="example">
+docker-enter myprj
+cd /usr/local/src/myproject/
+dev/install-sshd.sh 2201
+</pre>
+
+<p>
+However, when we created the container with <code>docker create</code> we did
+not think about forwarding this port. We have to destroy this
+container and create a new one, with an addition <code>-p</code> option for
+the port <b>2201</b>. But first we should use the command <code>docker
+   commit</code> to save to a new image any configurations and data that we
+already have in this container.
+</p>
+<pre class="example">
+docker stop myprj
+docker commit myprj myproject:v1
+docker images
+docker rm myproj
+docker create --name=myprj --hostname=example.org \
+              -p 80:80 -p 443:443 -p 2201:2201 \
+              myproject:v1
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3">Sharing files</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+In general it is not possible to directly access the directories
+and files of a container from the host system (and vice-versa).
+However we can use the docker <i>volumes</i> to share directories
+between the container and the host. It can be done like this:
+</p>
+
+<ul class="org-ul">
+<li>First we make a backup of the directory inside the container that
+we want to share (<code>/var/www/proj/profiles/myproject/</code>):
+<pre class="example">
+docker-enter myprj
+cd /var/www/proj/profiles/
+cp -a myproject/ myproject-bak
+exit
+</pre>
+</li>
+
+<li>Then we save the image of the container, in order to start a new
+container based on it:
+<pre class="example">
+docker stop myprj
+docker commit myprj myproject:v2
+docker images
+</pre>
+</li>
+
+<li>Next we create a new container that shares a directory with the
+host system (using the option <code>-v</code>):
+<pre class="example">
+docker rm myprj
+mkdir proj/
+docker create --name=myprj --hostname=example.org \
+           -v $(pwd)/proj:/var/www/proj/profiles/myproject/ \
+           -p 80:80 -p 443:443 -p 2201:2201 \
+           myproject:v2
+docker start myprj
+</pre>
+</li>
+
+<li>Finally we enter the container and move the content of the backup
+directory to the shared directory:
+<pre class="example">
+docker-enter myprj
+cd /var/www/proj/profiles/myproject/
+cp -a ../myproject-bak/* .
+cp -a ../myproject-bak/.* .
+rm -rf ../myproject-bak/
+exit
+</pre>
+</li>
+</ul>
+
+<p>
+Now we can go to the directory <b>proj/</b> on the host and start
+<i>emacs</i> or any other tools. This way we don't have to install
+<i>emacs</i> or any other development tools inside the container and we
+can use the best of development tools that the host system can
+offer.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Managing the Drupal application</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1">Making clones</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Clones of the main site can be used for development and testing.
+</p>
+
+<p>
+Inside the container we can make a clone for development like this:
+</p>
+<pre class="example">
+docker-enter myprj
+cd /usr/local/src/myproject/
+dev/clone.sh proj proj_dev1
+dev/clone.sh proj_dev1 proj_test1
+</pre>
+
+<p>
+It creates a new application with root <code>/var/www/proj_dev1/</code> and
+with DB named <code>proj_dev1</code>. It also creates the drush alias
+<code>@proj_dev1</code>, and modifies the configuration of the webserver so
+that the cloned application can be accessed at <code>dev1.example.org</code>.
+</p>
+
+<p>
+<b>Caution:</b> The root directory and the DB of the clone will be
+erased, if they exist.
+</p>
+
+<p>
+Other clones like this can be created for testing etc. To cleanup
+(remove/erase) a clone, we can use <code>clone_rm.sh</code> like this:
+</p>
+<pre class="example">
+docker-enter proj
+cd /usr/local/src/myproject/
+dev/clone_rm.sh proj_dev1
+dev/clone_rm.sh proj_test1
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2">Re-installing</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+It can be done with the script <code>dev/reinstall.sh</code>:
+</p>
+<pre class="example">
+docker-enter proj
+cd /usr/local/src/myproject/
+nohup nice dev/reinstall.sh settings.sh &amp;
+tail -f nohup.out
+</pre>
+<p>
+It will rebuild the Drupal directory with <code>drush make</code> and install
+the <b>myproject</b> profile with <code>drush site-install</code>, and then do all the
+rest of configurations just like they are done during installation.
+</p>
+
+<p>
+Normally there is no need to reinstall the application, unless we
+want to test the installation profile and the installation scripts.
+</p>
+
+<p>
+Another kind of re-installation, which touches only the database of
+Drupal and nothing else, can be done with the script
+<code>dev/reinstall-db.sh</code>:
+</p>
+<pre class="example">
+docker-enter proj
+cd /usr/local/src/myproject/
+nohup nice dev/reinstall-db.sh @proj_dev &amp;
+tail -f nohup.out
+</pre>
+
+<p>
+This is useful for testing the installation of custom modules,
+feature modules, etc. The argument <code>@proj_dev</code> is the alias of the
+site that should be reinstalled.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-5-3" class="outline-3">
+<h3 id="sec-5-3">Making backups</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+Sometimes, when testing things on Drupal (installing/uninstalling
+modules etc.) things get messy and it is not possible to revert
+back again to the state that you were before starting the test. In
+this case the only way to get safely to a previous stable state is
+by restoring a backup (or installing from the scratch and repeating
+all the configurations).
+</p>
+
+<p>
+A snapshot of the application is just like a full backup with a time
+stamp. It saves the state of the application at a certain time, both
+the code (the whole Drupal directory) and the database. It can be
+done like this:
+</p>
+<pre class="example">
+docker-enter proj
+cd /usr/local/src/myproject/
+dev/snapshot.sh make @proj
+dev/snapshot.sh make @proj_dev
+</pre>
+<p>
+These will create the files <code>snapshot-proj-20150426.tgz</code> and
+<code>snapshot-proj_dev-20150426.tgz</code>. They can be restored like this:
+</p>
+<pre class="example">
+dev/snapshot.sh restore @proj --file=snapshot-proj-20150426.tgz
+dev/snapshot.sh restore @proj --file=snapshot-proj_dev-20150426.tgz
+dev/snapshot.sh restore @proj_dev --file=snapshot-proj-20150426.tgz
+dev/snapshot.sh restore @proj_dev --file=snapshot-proj_dev-20150426.tgz
+</pre>
+<p>
+As you may notice, a snapshot of <b>@proj_dev</b> can also be restored on the
+main application, and the other way around.
+</p>
+
+<p>
+However, in many cases a backup/restore of the database is all that
+is needed, and it is more efficient. It can be done with <code>drush
+   sql-dump</code> and <code>drush sql-query</code> like this:
+</p>
+<pre class="example">
+drush sql-dump @proj &gt; proj.sql
+drush sql-dump @proj_dev &gt; proj_dev.sql
+
+drush @proj sql-query --file=$(pwd)/proj.sql
+drush @proj sql-query --file=$(pwd)/proj_dev.sql
+
+drush @proj_dev sql-query --file=$(pwd)/proj.sql
+drush @proj_dev sql-query --file=$(pwd)/proj_dev.sql
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Dashamir Hoxha</p>
+<p class="date">Created: 2015-04-26 Sun 12:09</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
