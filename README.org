@@ -130,7 +130,8 @@
     + http://dashohoxha.fs.al/using-drupal-features-in-btranslator/
     + http://dashohoxha.fs.al/cloning-btranslator-server/
 
-  - Other docs that may be useful:
+  - Other docs that may help:
+    + http://info.btranslator.org/docker-workshop/
     + http://codeinthehole.com/writing/pull-requests-and-other-good-practices-for-teams-using-github/
     + http://dashohoxha.fs.al/how-to-secure-ubuntu-server/
     + http://dashohoxha.fs.al/howto-manage-your-own-nameserver/
