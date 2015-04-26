@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>DBox Tutorial</title>
-<!-- 2015-04-26 Sun 12:09 -->
+<!-- 2015-04-26 Sun 20:59 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Dashamir Hoxha" />
@@ -486,6 +486,16 @@ docker start myprj
 docker stop myprj
 docker restart myprj
 </pre>
+
+<p>
+Add the domain name <code>example.org</code> on <code>/etc/hosts</code>:
+</p>
+<pre class="example">
+127.0.0.1 example.org dev.example.org
+</pre>
+<p>
+Now we can access the application at <a href="https://example.org">https://example.org</a>
+</p>
 </div>
 </div>
 </div>
@@ -778,7 +788,7 @@ drush @proj_dev sql-query --file=$(pwd)/proj_dev.sql
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Dashamir Hoxha</p>
-<p class="date">Created: 2015-04-26 Sun 12:09</p>
+<p class="date">Created: 2015-04-26 Sun 20:59</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

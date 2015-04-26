@@ -158,6 +158,12 @@
    docker restart myprj
    #+end_example
 
+   Add the domain name =example.org= on ~/etc/hosts~:
+   #+begin_example
+   127.0.0.1 example.org dev.example.org
+   #+end_example
+   Now we can access the application at https://example.org
+
 
 * Docker tips and tricks
 
