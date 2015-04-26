@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>DrupalBox by dashohoxha</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>DrupalBox</h1>
+        <h2>A template Drupal project for starting new Drupal projects quickly.</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/dashohoxha/dbox/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/dashohoxha/dbox/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/dashohoxha/dbox" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h2>
+<a id="about" class="anchor" href="#about" aria-hidden="true"><span class="octicon octicon-link"></span></a>About</h2>
+
+<p>DrupalBox is a template Drupal project that can be used to seed
+  (create) a new Drupal project quickly and easily.</p>
+
+<p>The new project will contain:</p>
+
+<ul>
+<li>A Drupal profile (which can also be based on the OpenAtrium
+profile).</li>
+<li>Makefiles for downloading the Drupal core, all the needed
+modules, libraries, patches, etc.</li>
+<li>Scripts for installing a minimal Ubuntu server inside a Docker
+container, with all the packages and configurations needed for
+running a Drupal application.</li>
+<li>Scripts, modules, tools and docs that facilitate the development,
+including a <code>dev--&gt;test--&gt;live</code> workflow.</li>
+</ul>
+
+<h2>
+<a id="motivation" class="anchor" href="#motivation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Motivation</h2>
+
+<p>The aim of this project is to be like a <em>"Drupal-on-Rails"</em> for
+  helping the new Drupal developers to get started and for simplifying
+  the life of the experienced Drupal developers.</p>
+
+<p>Usually a huge number of skills is needed in order to complete
+  successfully a Drupal project, like: server management, web stack
+  management, database management, knowledge of drush, Drupal
+  profiles, frequently used modules, common Drupal development
+  patterns and paradigms, etc. A new Drupal developer cannot possibly
+  get all this skills in a short time, so he is not able to finish
+  properly a Drupal application or it will take him a very long
+  time. This project offers them a Drupal solution that works out of
+  the box, with reasonable settings and configurations, which they can
+  use as a starting point for developing their application.</p>
+
+<p>This project can also simplify the life of the experienced Drupal
+  developers, by allowing them to get started quickly, and then
+  customizing the solution as they wish.</p>
+
+<h2>
+<a id="create-a-new-project" class="anchor" href="#create-a-new-project" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create a new project</h2>
+
+<p>A new project is created by renaming files of the template project
+  and doing find/replace in them.</p>
+
+<div class="highlight highlight-bash"><pre>  <span class="pl-c">### clone from github</span>
+  git clone https://github.com/dashohoxha/dbox.git
+  cp -a dbox myproject
+  <span class="pl-c1">cd</span> myproject/
+
+  <span class="pl-c"># git checkout openatrium  ## optionally, use the branch 'openatrium'</span>
+
+  <span class="pl-c">### rename the project</span>
+  ./rename-project.sh  <span class="pl-c"># see usage</span>
+  ./rename-project.sh labdoo:myproject lbd:proj
+
+  <span class="pl-c">### create a git repo</span>
+  git init <span class="pl-c1">.</span>
+  git add <span class="pl-c1">.</span>
+  git commit -m <span class="pl-s"><span class="pl-pds">'</span>Initial commit.<span class="pl-pds">'</span></span></pre></div>
+
+<p>The script <code>rename-project.sh</code> works by renaming files of the
+  template project and doing find/replace in them. There are two
+  parameters that are used to customize the template project: the
+  <em>project name</em> and the <em>project prefix</em>. In the template project
+  they are represented by <strong>labdoo</strong> and <strong>lbd</strong>, which are then replaced
+  in the new project by the new project’s name and prefix.</p>
+
+<p>Why these strange names? Why not use something like <strong>example</strong> and
+  <strong>xmp</strong>, or <strong>sample</strong> and <strong>smp</strong>, or <strong>template</strong> and <strong>tmp</strong> etc.</p>
+
+<p>The main reason is exactly that they are strange names and so there
+  is no risk of collision with other names used in a project. For
+  example <strong>xmp</strong> or <strong>template</strong> or <strong>tmp</strong> maybe are used on the project
+  for something else as well, and replacing them blindly with a new
+  value may break the application.</p>
+
+<h2>
+<a id="install-the-new-project" class="anchor" href="#install-the-new-project" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install the new project</h2>
+
+<p>Installation is done inside a Docker container. For instructions
+  about installing Docker see: <a href="https://docs.docker.com/installation/">https://docs.docker.com/installation/</a></p>
+
+<ul>
+<li>
+<p>Modify and customize the settings:</p>
+
+<pre><code>cp myproject/install/settings.sh cfg.sh
+vim cfg.sh
+</code></pre>
+</li>
+<li>
+<p>Build a Docker image:</p>
+
+<pre><code>myproject/docker-build.sh cfg.sh
+tail -f nohup-myproject-master.out
+less -r nohup-myproject-master.out
+</code></pre>
+
+<p>This will create a docker image, named <code>myproject:master</code> with a
+minimal ubuntu system and everything that is needed for the normal
+work of the Drupal application.</p>
+</li>
+<li>
+<p>Create a Docker container like this:</p>
+
+<pre><code>docker images
+docker create --name=myproject --hostname=example.org \
+       -p 80:80 -p 443:443 myproject:master
+</code></pre>
+
+<p>Then you can start and stop the container with <code>docker start myproject</code>
+and <code>docker stop myproject</code>.</p>
+
+<p>If it is installed on a local machine (for testing or development),
+add the domain name <code>example.org</code> on <code>/etc/hosts</code>:</p>
+
+<pre><code>127.0.0.1 example.org
+</code></pre>
+
+<p>This way it can be accessed by typing <code>https://example.org</code>
+on the browser location (not <code>https://127.0.0.1</code> or
+<code>https://localhost</code>).</p>
+</li>
+</ul>
+
+<h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<ul>
+<li>
+<p>Internal doc files:</p>
+
+<ul>
+<li>
+<a href="https://github.com/dashohoxha/dbox/blob/master/README.org">README.org</a> (this file)</li>
+<li>
+<a href="https://github.com/dashohoxha/dbox/blob/master/dev/README.org">dev/README.org</a> (tips for developers)</li>
+<li><a href="https://github.com/dashohoxha/dbox/blob/master/modules/features/README.org">modules/features/README.org</a></li>
+</ul>
+</li>
+<li>
+<p>External docs:</p>
+
+<ul>
+<li><a href="http://info.btranslator.org/docs/html/btranslator-dev-tips.html">http://info.btranslator.org/docs/html/btranslator-dev-tips.html</a></li>
+<li><a href="http://dashohoxha.fs.al/using-drupal-features-in-btranslator/">http://dashohoxha.fs.al/using-drupal-features-in-btranslator/</a></li>
+<li><a href="http://dashohoxha.fs.al/cloning-btranslator-server/">http://dashohoxha.fs.al/cloning-btranslator-server/</a></li>
+</ul>
+</li>
+<li>
+<p>Other docs that may help:</p>
+
+<ul>
+<li><a href="http://info.btranslator.org/docker-workshop/">http://info.btranslator.org/docker-workshop/</a></li>
+<li><a href="http://codeinthehole.com/writing/pull-requests-and-other-good-practices-for-teams-using-github/">http://codeinthehole.com/writing/pull-requests-and-other-good-practices-for-teams-using-github/</a></li>
+<li><a href="http://dashohoxha.fs.al/how-to-secure-ubuntu-server/">http://dashohoxha.fs.al/how-to-secure-ubuntu-server/</a></li>
+<li><a href="http://dashohoxha.fs.al/howto-manage-your-own-nameserver/">http://dashohoxha.fs.al/howto-manage-your-own-nameserver/</a></li>
+<li><a href="http://www.havetheknowhow.com/Configure-the-server/Install-ssmtp.html">http://www.havetheknowhow.com/Configure-the-server/Install-ssmtp.html</a></li>
+<li><a href="http://arstechnica.com/security/2009/12/how-to-get-set-with-a-secure-sertificate-for-free/">http://arstechnica.com/security/2009/12/how-to-get-set-with-a-secure-sertificate-for-free/</a></li>
+</ul>
+</li>
+</ul>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
