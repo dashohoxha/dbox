@@ -68,7 +68,7 @@ function labdoo_install_tasks_alter(&$tasks, $install_state) {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter()
+ * Implements hook_form_FORM_ID_alter() for apps_profile_apps_select.
  */
 function labdoo_form_apps_profile_apps_select_form_alter(&$form, $form_state) {
   // Call the hook of the base profile.
