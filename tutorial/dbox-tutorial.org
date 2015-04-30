@@ -188,6 +188,13 @@
 
    This is similar to =chroot=.
 
+   An alternative way is to use the command =docker exec= to start the
+   bash inside the container:
+   #+begin_example
+   docker exec -it myprj /bin/bash
+   #+end_example
+
+
 ** Installing sshd
 
    If we want to start a sshd server on port 2201 inside the
@@ -200,10 +207,10 @@
 
    However, when we created the container with =docker create= we did
    not think about forwarding this port. We have to destroy this
-   container and create a new one, with an addition =-p= option for
-   the port *2201*. But first we should use the command =docker
-   commit= to save to a new image any configurations and data that we
-   already have in this container.
+   container and create a new one, with an additional =-p= option for
+   the port *2201*. But before destroying it, we should use the
+   command =docker commit= to save to a new image any configurations
+   and data that we already have in this container.
    #+begin_example
    docker stop myprj
    docker commit myprj myproject:v1
