@@ -25,5 +25,5 @@ then
     $lbd/../dev/make-dev-clone.sh
 fi
 
-### drush may create some css/js files with wrong permissions
+### drush may create some files with wrong permissions, fix them
 $lbd/config/fix_file_permissions.sh
