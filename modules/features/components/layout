@@ -1,4 +1,4 @@
-variable:theme_bootstrap1_settings
+variable:theme_labdoo_settings
 variable:theme_default
 box:headerbox
 context:admin
