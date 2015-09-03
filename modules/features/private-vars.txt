@@ -6,8 +6,8 @@ simplenews_from_address
 simplenews_test_address
 mass_contact_default_sender_email
 mass_contact_default_sender_name
-recaptcha_private_key
-recaptcha_public_key
+recaptcha_secret_key
+recaptcha_site_key
 googleanalytics_account
 cron_key
 date_default_timezone
