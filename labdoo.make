@@ -12,7 +12,7 @@ defaults[projects][subdir] = contrib
 ;--------------------
 
 projects[bootstrap] = 3.0
-projects[jquery_update] = 3.0-alpha2
+projects[jquery_update] = 3.0-alpha3
 projects[less] = 4.0
 
 libraries[bootstrap][directory_name] = bootstrap
@@ -39,7 +39,7 @@ projects[entity] = 1.6
 projects[xautoload] = 5.2
 projects[token] = 1.6
 projects[rules] = 2.9
-projects[pathauto] = 1.2
+projects[pathauto] = 1.3
 projects[subpathauto] = 1.3
 
 ;;; User interface
@@ -57,11 +57,11 @@ projects[honeypot] = 1.19
 projects[user_restrictions] = 1.0
 
 ;;; Features
-projects[features] = 2.6
+projects[features] = 2.7
 projects[strongarm] = 2.0
 projects[features_extra] = 1.0
 projects[node_export] = 3.0
-projects[uuid] = 1.0-alpha6
+projects[uuid] = 1.0-beta1
 ;projects[menu_import] = 1.6
 
 ;projects[defaultconfig][version] = 1.x-dev
@@ -79,7 +79,7 @@ projects[memcache] = 1.5
 
 ;;; Services and Social
 projects[google_analytics] = 2.1
-projects[drupalchat] = 1.6
+projects[drupalchat] = 1.7
 projects[simplenews] = 1.1
 projects[mass_contact] = 1.0
 
