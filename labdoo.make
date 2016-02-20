@@ -36,7 +36,7 @@ projects[diff] = 3.2
 projects[ctools] = 1.9
 projects[libraries] = 2.2
 projects[entity] = 1.6
-projects[xautoload] = 5.2
+projects[xautoload] = 5.5
 projects[token] = 1.6
 projects[rules] = 2.9
 projects[pathauto] = 1.3
@@ -44,7 +44,7 @@ projects[subpathauto] = 1.3
 
 ;;; User interface
 projects[context] = 3.6
-projects[views] = 3.11
+projects[views] = 3.13
 projects[homebox] = 2.0-rc1
 projects[boxes] = 1.2
 projects[edit_profile] = 1.0-beta2
@@ -53,7 +53,7 @@ projects[wysiwyg] = 2.2
 ;;; Security
 projects[captcha] = 1.3
 projects[recaptcha] = 2.0
-projects[honeypot] = 1.19
+projects[honeypot] = 1.21
 projects[user_restrictions] = 1.0
 
 ;;; Features
