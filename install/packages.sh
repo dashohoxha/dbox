@@ -45,5 +45,10 @@ echo "extension = uploadprogress.so" > /etc/php5/conf.d/uploadprogress.ini
 # install drush
 wget http://files.drush.org/drush.phar
 chmod +x drush.phar
-sudo mv drush.phar /usr/local/bin/drush
+mv drush.phar /usr/local/bin/drush
 drush --yes init
+
+# install certbot (for getting ssl certs with letsencrypt)
+wget https://dl.eff.org/certbot-auto
+chmod +x certbot-auto
+mv certbot-auto /usr/local/bin/certboot
