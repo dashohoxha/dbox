@@ -1,4 +1,7 @@
-FROM ubuntu-upstart:14.04
+FROM ubuntu:16.04
+RUN systemctl set-default -f multi-user.target
+COPY docker/init.sh /usr/local/sbin/
+CMD ["/usr/local/sbin/init.sh"]
 
 ### Install packages.
 COPY install/packages.sh /tmp/

@@ -45,7 +45,7 @@ $mysql -e "
 "
 
 ### start site installation
-sed -e '/memory_limit/ c memory_limit = -1' -i /etc/php5/cli/php.ini
+#sed -e '/memory_limit/ c memory_limit = -1' -i /etc/php/7.0/cli/php.ini
 cd $drupal_dir
 drush site-install --verbose --yes labdoo \
       --db-url="mysql://$db_user:$db_pass@localhost/$db_name" \

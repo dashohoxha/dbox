@@ -52,7 +52,7 @@ Development Tools, Tips and Tricks
 
 * Change the webserver
 
-  There are two webservers installed, apache2 and nginx (with php5-fpm
+  There are two webservers installed, apache2 and nginx (with php-fpm
   and memcached). For development Apache2 can be more suitable, while
   for production NGINX is supposed to be more responsive in high load.
 

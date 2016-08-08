@@ -31,12 +31,22 @@ function remove_dir() {
     fi
 }
 
+docker_create() {
+    docker create --name=$container --hostname=$hostname \
+        --security-opt seccomp=unconfined \
+        --stop-signal=SIGRTMIN+3 \
+        --tmpfs /run \
+        --tmpfs /run/lock \
+        -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+        "$@" $ports $image
+}
+
 if [ "$dev" = 'false' ]
 then
     ### create a container for production
-    docker create --name=$container --hostname=$hostname --restart=always \
-        -v $(pwd)/downloads:/var/www/downloads \
-        $ports $image
+    docker_create \
+        --restart=always \
+        -v $(pwd)/downloads:/var/www/downloads
 else
     ### remove the directory labdoo/ if it exists
     remove_dir labdoo
@@ -49,7 +59,6 @@ else
     docker rm $container
 
     ### create a container for development
-    docker create --name=$container --hostname=$hostname \
-        -v $(pwd)/labdoo:/var/www/lbd/profiles/labdoo \
-        $ports $image
+    docker_create \
+        -v $(pwd)/labdoo:/var/www/lbd/profiles/labdoo
 fi

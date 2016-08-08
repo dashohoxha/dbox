@@ -6,6 +6,9 @@ set -a
 source options.sh
 set +a
 
+### start mysql, in case it is not running
+/etc/init.d/mysql start
+
 ### go to the directory of scripts
 cd $code_dir/install/scripts/
 

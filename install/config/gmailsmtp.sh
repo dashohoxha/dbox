@@ -24,9 +24,9 @@ fi
 
 if [ -z "${gmail_passwd+xxx}" -o "$gmail_passwd" = '' ]
 then
-    stty -echo
+    [[ -t 0 ]] && stty -echo
     read -p "Enter the gmail password: " gmail_passwd
-    stty echo
+    [[ -t 0 ]] && stty echo
     echo
 fi
 

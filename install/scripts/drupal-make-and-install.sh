@@ -31,13 +31,6 @@ cp -a libraries/bootstrap themes/contrib/bootstrap/
 cp -a libraries/bootstrap themes/labdoo/
 cp libraries/bootstrap/less/variables.less themes/labdoo/less/
 
-### start mysqld manually, if it is not running
-if test -z "$(ps ax | grep [m]ysqld)"
-then
-    nohup mysqld --user mysql >/dev/null 2>/dev/null &
-    sleep 5  # give time mysqld to start
-fi
-
 ### settings for the database and the drupal site
 db_name=lbd
 db_user=lbd
@@ -57,7 +50,7 @@ $mysql -e "
 "
 
 ### start site installation
-sed -e '/memory_limit/ c memory_limit = -1' -i /etc/php5/cli/php.ini
+#sed -e '/memory_limit/ c memory_limit = -1' -i /etc/php/7.0/cli/php.ini
 cd $drupal_dir
 drush site-install --verbose --yes labdoo \
       --db-url="mysql://$db_user:$db_pass@localhost/$db_name" \

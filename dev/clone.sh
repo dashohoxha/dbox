@@ -95,6 +95,6 @@ chown root: $dst_dir/sites/default/files/.htaccess
 ### restart services
 /etc/init.d/mysql restart
 /etc/init.d/apache2 restart
-#/etc/init.d/php5-fpm restart
+#/etc/init.d/php7.0-fpm restart
 #/etc/init.d/memcached restart
 #/etc/init.d/nginx restart
