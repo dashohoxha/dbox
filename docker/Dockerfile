@@ -1,6 +1,14 @@
 FROM ubuntu:16.04
-RUN systemctl set-default -f multi-user.target
-COPY docker/init.sh /usr/local/sbin/
+ENV container docker
+RUN echo '#!/bin/bash\n\
+        for service in /etc/rc3.d/S* ; do\n\
+            service=$(basename $service)\n\
+            service=${service:3}\n\
+            /etc/init.d/$service start\n\
+        done\n\
+        exec /sbin/init\n'\
+    > /usr/local/sbin/init.sh
+RUN chmod +x /usr/local/sbin/init.sh
 CMD ["/usr/local/sbin/init.sh"]
 
 ### Install packages.
