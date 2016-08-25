@@ -9,9 +9,8 @@ for the labdoo.
 It will modify the files:
  1) /etc/hostname
  2) /etc/hosts
- 3) /etc/nginx/sites-available/lbd*
- 4) /etc/apache2/sites-available/lbd*
- 5) /var/www/lbd*/sites/default/settings.php
+ 3) /etc/apache2/sites-available/lbd*
+ 4) /var/www/lbd*/sites/default/settings.php
 "
 
 ### get the current domain
@@ -32,10 +31,6 @@ sed -i /etc/hosts.conf \
 /etc/hosts_update.sh
 
 ### update config files
-for file in $(ls /etc/nginx/sites-available/lbd*)
-do
-    sed -i $file -e "/server_name/ s/$old_domain/$domain/"
-done
 for file in $(ls /etc/apache2/sites-available/lbd*)
 do
     sed -i $file \

@@ -6,9 +6,8 @@ apt-get -y upgrade
 
 ### install other needed packages
 apt-get -y install aptitude vim nano psmisc cron curl
-apt-get -y install openssh-server mysql-server ssmtp \
-        phpmyadmin memcached php-memcached php-mysql \
-        php-gd php-db php-dev php-pear php-curl php-apcu \
+apt-get -y install openssh-server apache2 mysql-server ssmtp phpmyadmin \
+        php-mysql php-gd php-db php-dev php-pear php-curl php-apcu \
         make ssl-cert gawk unzip wget curl diffutils git ruby
 apt-get -y install screen logwatch
 
@@ -27,17 +26,6 @@ apt-get -y install ruby-dev
 gem install t
 useradd --system --create-home twitter
 
-### phpmyadmin will install apache2 and start it
-### so we should stop it
-/etc/init.d/apache2 stop
-
-### install nginx and php-fpm
-apt-get -y install nginx nginx-common nginx-full php-fpm
-/etc/init.d/nginx stop
-update-rc.d nginx disable
-/etc/init.d/php7.0-fpm stop
-update-rc.d php7.0-fpm disable
-
 # install uploadprogress bar (requested by Drupal 7)
 #pecl install uploadprogress
 git clone https://git.php.net/repository/pecl/php/uploadprogress.git
@@ -49,7 +37,6 @@ make install
 cd ..
 echo "extension = uploadprogress.so" > /etc/php/7.0/mods-available/uploadprogress.ini
 ln -s /etc/php/7.0/mods-available/uploadprogress.ini /etc/php/7.0/apache2/conf.d/
-ln -s /etc/php/7.0/mods-available/uploadprogress.ini /etc/php/7.0/fpm/conf.d/
 
 # install drush
 wget http://files.drush.org/drush.phar

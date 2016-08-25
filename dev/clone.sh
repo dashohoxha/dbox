@@ -33,8 +33,7 @@ sub=${dst#*_}
 hostname=$sub.$domain
 sed -i $dst_dir/sites/default/settings.php \
     -e "/^\\\$databases = array/,+10  s/'database' => .*/'database' => '$dst',/" \
-    -e "/^\\\$base_url/c \$base_url = \"https://$hostname\";" \
-    -e "/^\\\$conf\['memcache_key_prefix'\]/c \$conf['memcache_key_prefix'] = '$dst';"
+    -e "/^\\\$base_url/c \$base_url = \"https://$hostname\";"
 
 ### add to /etc/hosts
 sed -i /etc/hosts.conf -e "/^127.0.0.1 $hostname/d"
@@ -66,15 +65,6 @@ drush --yes sql-sync @$src @$dst
 ### clear the cache
 drush @$dst cc all
 
-### copy and modify the configuration of nginx
-rm -f /etc/nginx/sites-{available,enabled}/$dst
-cp /etc/nginx/sites-available/{$src,$dst}
-sed -i /etc/nginx/sites-available/$dst \
-    -e "s/443 default ssl/443 ssl/" \
-    -e "s/server_name .*;/server_name $hostname;/" \
-    -e "s#$src_dir#$dst_dir#g"
-ln -s /etc/nginx/sites-{available,enabled}/$dst
-
 ### copy and modify the configuration of apache2
 rm -f /etc/apache2/sites-{available,enabled}/$dst{,-ssl}.conf
 cp /etc/apache2/sites-available/{$src,$dst}.conf
@@ -95,6 +85,3 @@ chown root: $dst_dir/sites/default/files/.htaccess
 ### restart services
 /etc/init.d/mysql restart
 /etc/init.d/apache2 restart
-#/etc/init.d/php7.0-fpm restart
-#/etc/init.d/memcached restart
-#/etc/init.d/nginx restart

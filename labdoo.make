@@ -75,7 +75,6 @@ projects[l10n_update] = 2.0
 
 ;;; Performance
 projects[boost] = 1.1
-projects[memcache] = 1.5
 
 ;;; Services and Social
 projects[google_analytics] = 2.1

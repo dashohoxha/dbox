@@ -23,9 +23,6 @@ sed -i /etc/drush/local_lbd.aliases.drushrc.php \
 mysql --defaults-file=/etc/mysql/debian.cnf \
       -e "DROP DATABASE IF EXISTS $target;"
 
-### remove the configuration of nginx
-rm -f /etc/nginx/sites-{available,enabled}/$target
-
 ### remove the configuration of apache2
 rm -f /etc/apache2/sites-{available,enabled}/$target{,-ssl}.conf
 
@@ -39,6 +36,3 @@ sed -i /etc/hosts.conf -e "/^127.0.0.1 $hostname/d"
 ### restart services
 /etc/init.d/mysql restart
 /etc/init.d/apache2 restart
-#/etc/init.d/php7.0-fpm restart
-#/etc/init.d/memcached restart
-#/etc/init.d/nginx restart

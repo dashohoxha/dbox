@@ -82,7 +82,6 @@ dependencies[] = user_restrictions
 
 ;;; Performance
 dependencies[] = boost
-;dependencies[] = memcache
 
 ;--------------------
 ; Sending Emails

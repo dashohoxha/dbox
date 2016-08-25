@@ -42,30 +42,6 @@ cat >> $drupal_settings << EOF
 
 EOF
 
-# set the memcache configuration
-cat >> $drupal_settings << EOF
-// Adds memcache as a cache backend
-/* comment memcache config
-\$conf['cache_backends'][] = 'profiles/labdoo/modules/contrib/memcache/memcache.inc';
-// Makes it so that memcache is the default caching backend
-\$conf['cache_default_class'] = 'MemCacheDrupal';
-// Keep forms in persistent storage, as per discussed at the beginning
-\$conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
-// I don't see any point in keeping the module update information in Memcached
-\$conf['cache_class_cache_update'] = 'DrupalDatabaseCache';
-
-// Specify the memcache servers you wish to use and assign them to a cluster
-// Cluster = group of memcache servers, in our case, it's probably just one server per cluster.
-\$conf['memcache_servers'] = array('unix:///var/run/memcached/memcached.sock' => 'default');
-// This assigns all cache bins to the 'default' cluster from above
-\$conf['memcache_bins'] = array('cache' => 'default');
-
-// If you wanted multiple Drupal installations to share one Memcache instance use the prefix like so:
-\$conf['memcache_key_prefix'] = 'labdoo';
-comment memcache config */
-
-EOF
-
 ### install additional features
 ### $drush is an alias for 'drush --root=/var/www/lbd'
 $drush --yes pm-enable lbd_layout
