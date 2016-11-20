@@ -33,9 +33,9 @@ projects[devel] = 1.5
 projects[diff] = 3.2
 
 ;;; Extensions
-projects[ctools] = 1.9
+projects[ctools] = 1.11
 projects[libraries] = 2.3
-projects[entity] = 1.7
+projects[entity] = 1.8
 projects[xautoload] = 5.7
 projects[token] = 1.6
 projects[rules] = 2.9
@@ -74,10 +74,10 @@ projects[delete_all] = 1.1
 projects[l10n_update] = 2.0
 
 ;;; Performance
-projects[boost] = 1.1
+projects[boost] = 1.2
 
 ;;; Services and Social
-projects[google_analytics] = 2.1
+projects[google_analytics] = 2.3
 projects[drupalchat] = 1.7
 projects[simplenews] = 1.1
 projects[mass_contact] = 1.0
@@ -90,9 +90,7 @@ projects[mailsystem] = 2.34
 projects[mimemail] = 1.0-beta4
 projects[reroute_email] = 1.2
 
-;projects[phpmailer] = 3.x-dev
-projects[phpmailer][download][revision] = 8f7c632
-projects[phpmailer][download][branch] = 7.x-3.x
+projects[phpmailer] = 3.0-beta1
 
 libraries[phpmailer][directory_name] = phpmailer
 libraries[phpmailer][download][type] = get
