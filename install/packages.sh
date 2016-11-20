@@ -5,11 +5,11 @@ apt-get update
 apt-get -y upgrade
 
 ### install other needed packages
-apt-get -y install aptitude vim nano psmisc cron curl
-apt-get -y install openssh-server apache2 mysql-server ssmtp phpmyadmin \
+apt-get -y install aptitude vim nano screen psmisc cron \
+        rsyslog logrotate ssmtp logwatch
+apt-get -y install openssh-server apache2 mysql-server phpmyadmin \
         php-mysql php-gd php-db php-dev php-pear php-curl php-apcu \
         make ssl-cert gawk unzip wget curl diffutils git ruby
-apt-get -y install screen logwatch
 
 ### install nodejs and less
 apt-get -y install npm

@@ -38,8 +38,7 @@ sed -i /etc/ssmtp/ssmtp.conf \
     -e "/^rewriteDomain=/ c rewriteDomain=gmail.com"
 
 sed -i /etc/ssmtp/revaliases \
-    -e "/^root:/ c root:$gmail_account:smtp.gmail.com:587" \
-    -e "/^admin:/ c admin:$gmail_account:smtp.gmail.com:587"
+    -e "/^root:/ c root:$gmail_account:smtp.gmail.com:587"
 
 for file in $(ls /etc/apache2/sites-available/*)
 do

@@ -1,5 +1,11 @@
 #!/bin/bash -x
 
+### configure the host for running systemd containers
+if [[ -z $(nsenter --mount=/proc/1/ns/mnt -- mount | grep /sys/fs/cgroup/systemd) ]]; then
+  [[ ! -d /sys/fs/cgroup/systemd ]] && mkdir -p /sys/fs/cgroup/systemd
+  nsenter --mount=/proc/1/ns/mnt -- mount -t cgroup cgroup -o none,name=systemd /sys/fs/cgroup/systemd
+fi
+
 ### go to the docker directory
 cd $(dirname $0)/../
 
@@ -33,19 +39,18 @@ function remove_dir() {
 
 docker_create() {
     docker create --name=$container --hostname=$hostname \
-        --security-opt seccomp=unconfined \
-        --stop-signal=SIGRTMIN+3 \
-        --tmpfs /run \
-        --tmpfs /run/lock \
+        --cap-add SYS_ADMIN \
+        --tmpfs /run --tmpfs /run/lock \
         -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
         "$@" $ports $image
 }
 
+dev=false
 if [ "$dev" = 'false' ]
 then
     ### create a container for production
     docker_create \
-        --restart=always \
+        --restart=unless-stopped \
         -v $(pwd)/downloads:/var/www/downloads
 else
     ### remove the directory labdoo/ if it exists
